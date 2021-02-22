@@ -1,6 +1,6 @@
 {
-  "name": "hack4impact-chapter-website-template",
-  "author": "Hack4Impact",
+  "name": "hack4impact-upenn",
+  "author": "Hack4Impact UPenn",
   "scripts": {
     "dev": "next",
     "build": "next build",
