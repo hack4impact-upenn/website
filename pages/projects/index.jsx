@@ -34,10 +34,10 @@ export default Projects;
 
 export async function getStaticProps() {
   const {
-    websiteLayout: { projectsCollection },
+    pennWebsiteLayout: { projectsCollection },
   } = await fetchContent(`
   {
-    websiteLayout(id: "${process.env.LAYOUT_ENTRY_ID}") {
+    pennWebsiteLayout(id: "${process.env.LAYOUT_ENTRY_ID}") {
       projectsCollection {
         items {
           title

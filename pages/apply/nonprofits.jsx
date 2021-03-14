@@ -45,10 +45,10 @@ export default NonProfits;
 
 export async function getStaticProps() {
   const {
-    websiteLayout: { nonprofitApplication },
+    pennWebsiteLayout: { nonprofitApplication },
   } = await fetchContent(`
   {
-    websiteLayout(id: "${process.env.LAYOUT_ENTRY_ID}") {
+    pennWebsiteLayout(id: "${process.env.LAYOUT_ENTRY_ID}") {
       nonprofitApplication {
         applicationLink
         openRolesLink

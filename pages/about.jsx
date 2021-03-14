@@ -26,14 +26,14 @@ export default AboutPage;
 
 export async function getStaticProps() {
   const {
-    websiteLayout: {
+    pennWebsiteLayout: {
       chapterValuesCollection,
       directorQuotesCollection,
       membersCollection,
       alumniCollection,
     },
   } = await fetchContent(`
-  fragment profile on MemberProfile {
+  fragment profile on PennMemberProfile{
     name
     title
     image {
@@ -43,7 +43,7 @@ export async function getStaticProps() {
   } 
   
   {
-    websiteLayout(id:"${process.env.LAYOUT_ENTRY_ID}") {
+    pennWebsiteLayout(id: "${process.env.LAYOUT_ENTRY_ID}") {
       chapterValuesCollection {
         items {
           header
@@ -80,6 +80,7 @@ export async function getStaticProps() {
     }
   }
   `);
+  
   return {
     props: {
       values: chapterValuesCollection.items,

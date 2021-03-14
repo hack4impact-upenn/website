@@ -34,7 +34,7 @@ export default Home;
 export async function getStaticProps() {
   const {
     chapterCollection,
-    websiteLayout: { projectsCollection },
+    pennWebsiteLayout: { projectsCollection },  
   } = await fetchContent(`
   {
     chapterCollection {
@@ -48,7 +48,7 @@ export async function getStaticProps() {
         }
       }
     }
-    websiteLayout(id: "${process.env.LAYOUT_ENTRY_ID}") {
+    pennWebsiteLayout(id: "${process.env.LAYOUT_ENTRY_ID}") {
       projectsCollection(limit: 3) {
         items {
           title

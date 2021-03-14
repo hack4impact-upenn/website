@@ -100,10 +100,10 @@ export default ProjectPage;
 // necessary to statically render all paths
 export async function getStaticPaths() {
   const {
-    websiteLayout: { projectsCollection },
+    pennWebsiteLayout: { projectsCollection },
   } = await fetchContent(`
   {
-    websiteLayout(id: "${process.env.LAYOUT_ENTRY_ID}") {
+    pennWebsiteLayout(id: "${process.env.LAYOUT_ENTRY_ID}") {
       projectsCollection {
         items {
           urlSlug

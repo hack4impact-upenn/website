@@ -47,10 +47,10 @@ export default Students;
 
 export async function getStaticProps() {
   const {
-    websiteLayout: { studentApplication },
+    pennWebsiteLayout: { studentApplication },
   } = await fetchContent(`
   {
-    websiteLayout(id: "${process.env.LAYOUT_ENTRY_ID}") {
+    pennWebsiteLayout(id: "${process.env.LAYOUT_ENTRY_ID}") {
       studentApplication {
         applicationLink
         openRolesLink
