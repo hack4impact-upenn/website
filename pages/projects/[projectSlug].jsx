@@ -6,7 +6,7 @@ import FeatureSlider from '../../components/projects/featureSlider';
 import ProjectQuote from '../../components/quote';
 import ContentBlock from '../../components/ContentBlock';
 import ActionButton from '../../components/actionButton';
-import { Row, Col } from 'reactstrap';
+import { Row, Col, Container } from 'reactstrap';
 import GradientBanner from '../../components/gradientBanner';
 import ProjectTechUsed from '../../components/projects/projectTechUsed';
 
@@ -16,8 +16,9 @@ function ProjectPage({
   thumbnail,
   finalProductLink,
   codeRepoLink,
-  problem,
-  solution,
+  project,
+  client,
+  impact,
   featuresCollection,
   testimonialsCollection,
   technologiesUsed,
@@ -40,20 +41,28 @@ function ProjectPage({
         </Row>
         <Row className="d-flex justify-content-center">
           <Col lg="4" md="6">
-            <h2 className="mb-3">Problem</h2>
+            <h2 className="mb-3">About the Project</h2>
             <div className="card-body">
-              <ContentBlock content={problem.json} />
+              <ContentBlock content={project.json} />
             </div>
           </Col>
           <Col lg="4" md="6">
-            <h2 className="mb-3">Solution</h2>
+            <h2 className="mb-3">About the Client</h2>
             <div className="card-body">
-              <ContentBlock content={solution.json} />
+              <ContentBlock content={client.json} />
             </div>
           </Col>
-        </Row>
+        </Row>    
       </section>
       <FeatureSlider features={featuresCollection.items} />
+      <section>      
+        <Container>
+          <Row className="d-flex justify-content-center">
+            <h2 className="mb-3">Impact</h2>
+            <ContentBlock content={impact.json} />
+          </Row>
+        </Container>
+      </section>
       <ProjectTechUsed technologiesUsed={technologiesUsed.split(',').map((t) => t.trim())} />
       {testimonialsCollection.items.map(({ author, quote }) => {
         const [authorName, authorTitle] = author.split(',');
@@ -126,10 +135,11 @@ export async function getStaticPaths() {
 }
 
 // necessary to statically render all paths
+
 export async function getStaticProps({ params: { projectSlug } }) {
-  const { projectPageCollection } = await fetchContent(`
+  const { pennProjectPageCollection } = await fetchContent(`
   {
-    projectPageCollection(where: {urlSlug: "${projectSlug}"}, limit: 1) {
+    pennProjectPageCollection(where: {urlSlug: "${projectSlug}"}, limit: 1) {
       items {
         title
         description {
@@ -141,10 +151,13 @@ export async function getStaticProps({ params: { projectSlug } }) {
         finalProductLink
         codeRepoLink
         technologiesUsed
-        problem {
+        project {
           json
         }
-        solution {
+        client {
+          json
+        }
+        impact {
           json
         }
         featuresCollection {
@@ -182,11 +195,11 @@ export async function getStaticProps({ params: { projectSlug } }) {
   }
   `);
 
-  if (!projectPageCollection?.items?.length) {
+  if (!pennProjectPageCollection?.items?.length) {
     throw `The slug ${projectSlug} doesn't have an associated Contentful entry.
     Make sure your getStaticPaths method is pulling the right slugs!`;
   }
-  const projectContent = projectPageCollection.items[0];
+  const projectContent = pennProjectPageCollection.items[0];
 
   return {
     props: {

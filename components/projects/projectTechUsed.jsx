@@ -140,6 +140,11 @@ const icons = {
     title: 'Spacy',
     imgPath: '/images/techStack/spacy.jpg',
   },
+  SQLite: {
+    link: 'https://www.sqlite.org/',
+    title: 'SQLite',
+    imgPath: '/images/techStack/sqlite.png',
+  },
   yargs: {
     link: 'http://yargs.js.org',
     title: 'Yargs',
