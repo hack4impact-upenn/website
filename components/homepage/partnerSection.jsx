@@ -39,7 +39,7 @@ export default function PartnerSection() {
           <div className="center partner-button">
             <ActionLink
               text="Interested in partnering? Contact us"
-              link="mailto:contact@hack4impact.org"
+              link="mailto:penn@hack4impact.org"
             />
           </div>
         </Row>
