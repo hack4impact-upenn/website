@@ -15,7 +15,7 @@ function Footer() {
               For all inquiries of partnership or sponsorship, please contact us at{' '}
               {/* TODO: Update this for your university! */}
               <a className="email-link" href="mailto:penn@hack4impact.org">
-                contact@hack4impact.org
+                penn@hack4impact.org
               </a>
               .
             </p>
@@ -73,7 +73,7 @@ function Footer() {
                 <a href="mailto:penn@hack4impact.org">Email</a>
               </li>
               <li>
-                <a href="https://www.facebook.com/Hack4Impact">Notion & Wiki</a>
+                <a href="https://www.facebook.com/Hack4Impact">Facebook</a>
               </li>
             </ul>
           </div>
