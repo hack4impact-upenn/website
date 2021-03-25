@@ -36,7 +36,7 @@ function NonProfits({
         <Quote key={author} quote={quote} source={author} />
       ))}
       {timelineCollection && <ApplicationProcess steps={timelineCollection.items} />}
-      {faqsCollection && <Faq questions={faqsCollection.items} />}
+      {/* {faqsCollection && <Faq questions={faqsCollection.items} />} */}
     </>
   );
 }
