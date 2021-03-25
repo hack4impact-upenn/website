@@ -1,6 +1,6 @@
-# Hack4Impact's Chapter Website Template 🚀
+# Hack4Impact's Penn Chapter Site 🚀
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/hack4impact/chapter-website-template&utm_source=github&utm_medium=nextstarter-cs&utm_campaign=devex)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/1fc1ecac-e266-4232-abdf-e0c0e9ffae91/deploy-status)](https://app.netlify.com/sites/h4i-upenn/deploys)
 
 ## Our tech stack
 
@@ -44,10 +44,11 @@ LAYOUT_ENTRY_ID=
 If you use our Hack4Impact space, you'll have a content model called **Website Layout** that you can access. This model outlines _all major_ pieces of your site, from your university logo to your nonprofit projects to your recruitment cycle information.
 
 To create a new entry for your chapter's website:
+
 1. Head to the **Content** tab and search for the "Example Template" to see how your end product might look ![contentful search for Example Template, filtered by Website Layout](public/images/readme-assets/website-layout-search.png)
-3. Back out and create a new Website Layout entry from the **Add Entry** button. You can also **Duplicate** our template for a nice starting point, but _be warned!_ All referenced entries in this template (values, projects, etc) are _not_ duplicated. You'll need to detach these from your duplicated template, or you'll accidentally modify our example 😬
-4. Fill out the contents as you wish. Feel free to omit non-required values where necessary, since this repo should be smart enough to handle optional content!
-5. Copy your layout's **Entry ID** into your environment variables (`.env`) as the `LAYOUT_ENTRY_ID`. To find this, just head to the **Info** tab on your entry and copy the ID from there. 
+2. Back out and create a new Website Layout entry from the **Add Entry** button. You can also **Duplicate** our template for a nice starting point, but _be warned!_ All referenced entries in this template (values, projects, etc) are _not_ duplicated. You'll need to detach these from your duplicated template, or you'll accidentally modify our example 😬
+3. Fill out the contents as you wish. Feel free to omit non-required values where necessary, since this repo should be smart enough to handle optional content!
+4. Copy your layout's **Entry ID** into your environment variables (`.env`) as the `LAYOUT_ENTRY_ID`. To find this, just head to the **Info** tab on your entry and copy the ID from there.
 
 ## Building the site
 
