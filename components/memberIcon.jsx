@@ -1,12 +1,12 @@
 import React from 'react';
 import { Col, Card } from 'reactstrap';
 
-const TeamMemberIcon = ({ name, title, image, linkedIn }) => {
+const TeamMemberIcon = ({ name, title, image, memberSlug, linkedIn }) => {
   return (
     <Col xs={image?.url ? '6' : '6'} md="3">
       <Card className="border-0 member-icon">
         <div className="text-center">
-          <a href={linkedIn} target="_blank" rel="noreferrer">
+          <a href={memberSlug}>
             <img src={image.url} alt={name} className="rounded-circle img-fluid team-icon" />
           </a>
         </div>

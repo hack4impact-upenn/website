@@ -18,6 +18,7 @@ function Team({ directorQuotes, members, alumni }) {
               name={member.name}
               title={member.title}
               image={member.image}
+              memberSlug={`/team/${member.urlSlug}`}
               linkedIn={member.linkedIn}
             />
           ))}
@@ -29,7 +30,7 @@ function Team({ directorQuotes, members, alumni }) {
           .map(([classOf, alum]) => (
             <div key={classOf}>
               <Row>
-                <h2 className="section-title center">Class of {classOf}</h2>
+                <h4 className="class-title center">Class of {classOf}</h4>
               </Row>
               <Row>
                 {alum.map((member) => (
@@ -38,6 +39,7 @@ function Team({ directorQuotes, members, alumni }) {
                     name={member.name}
                     title={member.title}
                     image={member.image}
+                    memberSlug={`/team/${member.urlSlug}`}
                     linkedIn={member.linkedIn}
                   />
                 ))}

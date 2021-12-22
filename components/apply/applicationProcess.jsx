@@ -8,7 +8,7 @@ const ApplicationProcess = ({ steps }) => (
     <Container>
       <Row>
         <div className="col-md-12">
-          <h2 className="text-center">Application Process</h2>
+          <h2 className="text-center">Application and Development Process</h2>
         </div>
       </Row>
       <Row>

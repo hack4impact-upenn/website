@@ -6,7 +6,7 @@ import { Row } from 'reactstrap';
 export default function OtherChapters({ chapterLogos }) {
   return (
     <Section className="chapters-section">
-      <h2 className="section-title center mb-5">Other Chapters</h2>
+      <h2 className="section-title center mb-5">Our Chapters</h2>
       <Row>
         <div className="showcase-container pt-5">
           <BackgroundSlider>

@@ -38,9 +38,10 @@ export async function getStaticProps() {
     title
     image {
       url
-    }
+    } 
     linkedIn
     classOf
+    urlSlug
   } 
   
   {
@@ -81,7 +82,7 @@ export async function getStaticProps() {
     }
   }
   `);
-  
+
   return {
     props: {
       values: chapterValuesCollection.items,

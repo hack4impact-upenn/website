@@ -1,10 +1,12 @@
 import React from 'react';
-import Section from './section';
+//  import Section from './section';
+import QuoteSection from './quoteSection';
+
 import { Container, Row, Col } from 'reactstrap';
 import ContentBlock from './ContentBlock';
 
 const Quote = ({ quote, source, sourceTitle }) => (
-  <Section grey>
+  <QuoteSection grey>
     <Container>
       <Row>
         <Col md="12">
@@ -31,7 +33,7 @@ const Quote = ({ quote, source, sourceTitle }) => (
         line-height: 0;
       }
     `}</style>
-  </Section>
+  </QuoteSection>
 );
 
 export default Quote;

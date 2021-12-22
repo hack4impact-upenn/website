@@ -145,6 +145,11 @@ const icons = {
     title: 'SQLite',
     imgPath: '/images/techStack/sqlite.png',
   },
+  Twilio: {
+    link: 'https://www.twilio.com/',
+    title: 'Twilio',
+    imgPath: '/images/techStack/twilio.png',
+  },
   yargs: {
     link: 'http://yargs.js.org',
     title: 'Yargs',
