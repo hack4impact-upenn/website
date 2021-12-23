@@ -1,9 +1,9 @@
 import React from 'react';
 import { Col, Card } from 'reactstrap';
 
-const TeamMemberIcon = ({ name, title, image, memberSlug, linkedIn }) => {
+const CoDirectorIcon = ({ name, title, image, memberSlug, linkedIn }) => {
   return (
-    <Col xs={image?.url ? '6' : '6'} md="3">
+    <Col xs={image?.url ? '6' : '6'} md="6">
       <Card className="border-0 member-icon">
         <div className="text-center">
           <a href={memberSlug}>
@@ -43,4 +43,4 @@ const TeamMemberIcon = ({ name, title, image, memberSlug, linkedIn }) => {
   );
 };
 
-export default TeamMemberIcon;
+export default CoDirectorIcon;

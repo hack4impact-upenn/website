@@ -28,12 +28,20 @@ function ProjectPage({
     <>
       <Head title={title} />
       <GradientBanner title={title} subHeadline={description}>
-        <ActionButton className="mr-3" link={finalProductLink}>
-          Try our final product
-        </ActionButton>
-        <ActionButton white link={codeRepoLink}>
-          See our code
-        </ActionButton>
+        {finalProductLink ? (
+          <>
+            <ActionButton className="mr-3" link={finalProductLink}>
+              Try our final product
+            </ActionButton>
+            <ActionButton white link={codeRepoLink}>
+              See our code
+            </ActionButton>
+          </>
+        ) : (
+          <ActionButton white link={codeRepoLink}>
+            See our code
+          </ActionButton>
+        )}
       </GradientBanner>
       <section className="pt-0">
         <Row className="d-flex justify-content-center mb-5">
@@ -52,10 +60,10 @@ function ProjectPage({
               <ContentBlock content={client.json} />
             </div>
           </Col>
-        </Row>    
+        </Row>
       </section>
       <FeatureSlider features={featuresCollection.items} />
-      <section>      
+      <section>
         <Container>
           <Row className="d-flex justify-content-center">
             <h2 className="mb-3">Impact</h2>
@@ -122,11 +130,13 @@ export async function getStaticPaths() {
   }
   `);
 
-  const paths = projectsCollection.items.map(({ urlSlug }) => ({
-    params: {
-      projectSlug: urlSlug,
-    },
-  }));
+  const paths = projectsCollection.items
+    .filter((x) => !!x)
+    .map(({ urlSlug }) => ({
+      params: {
+        projectSlug: urlSlug,
+      },
+    }));
 
   return {
     paths,

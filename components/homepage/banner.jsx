@@ -23,7 +23,7 @@ const Banner = () => (
               config={{ delay: 450, ...config.slow }}
               from={{ opacity: 0, transform: 'translate3d(-100px,0,0)' }}
               to={{ opacity: 100, transform: 'translate3d(0,0px,0)' }}>
-              {(props) => <h1 style={props}>Building tools for social good</h1>}
+              {(props) => <h1 style={props}>We build software for nonprofits.</h1>}
             </Spring>
             <Spring
               config={{ delay: 450, ...config.slow }}

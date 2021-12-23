@@ -104,6 +104,12 @@ section {
   font-weight: bold;
 }
 
+.class-title {
+  font-size: 24px;
+  margin-bottom: 25px;
+  font-weight: bold;
+}
+
 .text-title {
   font-size: 25px;
   margin-bottom: 25px;

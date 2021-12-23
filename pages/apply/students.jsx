@@ -22,7 +22,7 @@ function Students({
       <GradientBanner
         title={'Students'}
         subHeadline={
-          'Students are a core part of what makes Hack4Impact. Joining Hack4Impact is the perfect way to give back while developing new skills and making long-lasting friendships.'
+          'Hack4Impact isn’t just for nonprofits. Our work provides us a unique opportunity to learn and develop technical skills. Education is at the core of Hack4Impact’s mission, and we work hard to create an environment where we are always learning from our work — and from each other.'
         }>
         {applicationLink && <ActionButton link={applicationLink}>Apply Now</ActionButton>}
         {openRolesLink && (
@@ -31,7 +31,7 @@ function Students({
           </ActionButton>
         )}
       </GradientBanner>
-      <ServicesDetail content={description} />
+      <ServicesDetail title="Interested in joining Hack4Impact?" content={description} />
       {testimonialsCollection.items.map(({ author, quote }) => (
         <Quote key={author} quote={quote} source={author} />
       ))}

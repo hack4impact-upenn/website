@@ -2,6 +2,7 @@ import React from 'react';
 import Faq from '../../components/faq';
 import GradientBanner from '../../components/gradientBanner';
 import ServicesDetail from '../../components/apply/nonprofit/servicesDetail';
+import QuoteSection from '../../components/quoteSection';
 import Quote from '../../components/quote';
 import ApplicationProcess from '../../components/apply/applicationProcess';
 import Head from '../../components/head';
@@ -31,7 +32,7 @@ function NonProfits({
           </ActionButton>
         )}
       </GradientBanner>
-      <ServicesDetail content={description} />
+      <ServicesDetail title="Interested in working with Hack4Impact?" content={description} />
       {testimonialsCollection.items.map(({ author, quote }) => (
         <Quote key={author} quote={quote} source={author} />
       ))}

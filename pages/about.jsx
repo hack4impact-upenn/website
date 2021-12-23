@@ -6,7 +6,7 @@ import Head from '../components/head';
 import Team from '../components/about/team';
 import fetchContent from '../utils/fetchContent';
 
-function AboutPage({ members, alumni, values, directorQuotes }) {
+function AboutPage({ members, alumni, values, execBoard }) {
   return (
     <div>
       <Head title="About Us" />
@@ -17,7 +17,7 @@ function AboutPage({ members, alumni, values, directorQuotes }) {
       />
       <MissionSection />
       <OurValues content={values} />
-      <Team directorQuotes={directorQuotes} members={members} alumni={alumni} />
+      <Team members={members} alumni={alumni} execBoard={execBoard} />
     </div>
   );
 }
@@ -28,7 +28,7 @@ export async function getStaticProps() {
   const {
     pennWebsiteLayout: {
       chapterValuesCollection,
-      directorQuotesCollection,
+      execBoardCollection,
       membersCollection,
       alumniCollection,
     },
@@ -38,9 +38,10 @@ export async function getStaticProps() {
     title
     image {
       url
-    }
+    } 
     linkedIn
     classOf
+    urlSlug
   } 
   
   {
@@ -57,15 +58,9 @@ export async function getStaticProps() {
           }
         }
       }
-      directorQuotesCollection {
+      execBoardCollection {
         items {
-          authorInfo {
-            ...profile
-          }
-          quote {
-            json
-          }
-          yearWritten
+          ...profile
         }
       }
       membersCollection {
@@ -81,13 +76,12 @@ export async function getStaticProps() {
     }
   }
   `);
-  
   return {
     props: {
       values: chapterValuesCollection.items,
-      directorQuotes: directorQuotesCollection.items,
       members: membersCollection.items,
       alumni: alumniCollection.items,
+      execBoard: execBoardCollection.items,
     },
   };
 }

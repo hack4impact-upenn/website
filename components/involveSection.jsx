@@ -11,7 +11,7 @@ const InvolveSection = () => (
         <h3 className="text-title text-center">Students</h3>
         <Link href="/apply/students">
           <a>
-            <img src="/images/h4i-funny.jpg" className="img-fluid" alt="Sp18 team" />
+            <img src="/images/retreat-2020.jpg" className="img-fluid" alt="Sp18 team" />
           </a>
         </Link>
       </div>
@@ -28,7 +28,7 @@ const InvolveSection = () => (
 
         <div className="text-center">
           <ActionButton white link="/apply/students">
-            Learn More
+            Join Us!
           </ActionButton>
         </div>
       </Row>
@@ -38,7 +38,11 @@ const InvolveSection = () => (
         <h3 className="text-title text-center">Nonprofits</h3>
         <Link href="/apply/students">
           <a>
-            <img src="/images/team-cheer.jpg" className="img-fluid" alt="Fa19 team" />
+            <img
+              src="/images/philly_food_finder.jpg"
+              className="img-fluid"
+              alt="Philadelphia Mayor’s Recognition"
+            />
           </a>
         </Link>
         <Row>
@@ -52,7 +56,7 @@ const InvolveSection = () => (
           />
           <div className="text-center">
             <ActionButton white link="/apply/nonprofits">
-              Learn More
+              Work with us!
             </ActionButton>
           </div>
         </Row>

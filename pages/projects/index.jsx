@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import Head from '../../components/head';
 import GradientBanner from '../../components/gradientBanner';
@@ -19,9 +20,19 @@ function Projects({ projects }) {
                 to build tools that are more than just pet projects. We strive
                 to deliver incredible value to the nonprofits we are fortunate
                 enough to work with and look forward to seeing our products
-                continue to be used for years to come.">
+                continue to be used for years to come. ">
         <ActionButton link="https://github.com/hack4impact-upenn">See our GitHub</ActionButton>
       </GradientBanner>
+      <div style={{ textAlign: 'center', paddingRight: '5px' }}>
+        <h2>Section Under Construction</h2>
+        <p>
+          We are in the process of transfer all of our projects to our new site. A complete list of
+          pervious projects can be found{' '}
+          <a href="https://www.notion.so/h4i/986a3351cdca44cd85e10dd4452953f5?v=6420ae90233148dfaf6f8570e680e4e5">
+            here
+          </a>
+        </p>
+      </div>
       <ProjectList projects={projects} />
       <ProjectExplore />
     </div>
@@ -56,7 +67,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      projects: projectsCollection.items,
+      projects: projectsCollection.items.filter((x) => !!x),
     },
   };
 }
