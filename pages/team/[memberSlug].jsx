@@ -139,7 +139,6 @@ export async function getStaticPaths() {
       },
     }));
   const paths = memberPaths.concat(alumniPaths);
-  console.log(paths);
   return {
     paths,
     fallback: false,
@@ -167,13 +166,11 @@ export async function getStaticProps({ params: { memberSlug } }) {
     }
   }
   `);
-  console.log(pennMemberProfileCollection);
   if (!pennMemberProfileCollection?.items?.length) {
     throw `The slug ${memberSlug} doesn't have an associated Contentful entry.
     Make sure your getStaticPaths method is pulling the right slugs!`;
   }
   const memberContent = pennMemberProfileCollection.items[0];
-  console.log(memberContent);
   return {
     props: {
       ...memberContent,
