@@ -1,6 +1,5 @@
 import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
-import Section from '../section';
+import { Container, Row } from 'reactstrap';
 import MemberIcon from '../memberIcon';
 import CoDirectorIcon from '../CoDirectorIcon';
 
