@@ -38,7 +38,7 @@ function Students({
       {timelineCollection?.items?.length > 0 && (
         <ApplicationProcess steps={timelineCollection.items} />
       )}
-      {/* {faqsCollection?.items?.length > 0 && <Faq questions={faqsCollection.items} />} */}
+      {faqsCollection?.items?.length > 0 && <Faq questions={faqsCollection.items} />}
     </>
   );
 }
