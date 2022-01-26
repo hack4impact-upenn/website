@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Col, Card } from 'reactstrap';
 
 const CoDirectorIcon = ({ name, title, image, memberSlug, linkedIn }) => {

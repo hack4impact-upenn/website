@@ -15,6 +15,7 @@
     "@egjs/react-flicking": "^4.4.3",
     "classnames": "^2.3.1",
     "contentful": "^9.1.5",
+    "electron-to-chromium": "^1.4.53",
     "next": "^10.0.4",
     "next-page-transitions": "^1.0.0-alpha.4",
     "react": "^16.6.3",
