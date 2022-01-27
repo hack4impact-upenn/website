@@ -1,0 +1,52 @@
+.root {
+  margin-left: auto;
+  margin-right: auto;
+  $card-margin: 10px;
+  $card-width: 340px;
+  .carousel_container {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+
+    .value_card_container {
+      display: flex;
+
+      .value_card {
+        width: $card-width;
+        margin: $card-margin;
+        border: 3px solid black;
+        padding: 10px;
+        border-radius: 5px;
+        transform: scale(0.9);
+        opacity: 0.8;
+        transition: transform 0.3s;
+
+        &.selected {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      &.move {
+        transform: translateX(-$card-width - $card-margin * 2);
+        transition: transform 0.3s;
+      }
+    }
+  }
+
+  .button_container {
+    display: flex;
+    justify-content: center;
+    top: -50px;
+    .next_value_button {
+      transition: background-color 0.3s;
+      border-radius: 5px;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      padding-right: 15px;
+      margin-left: $card-width - 80px;
+    }
+  }
+}
