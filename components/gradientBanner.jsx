@@ -21,23 +21,21 @@ const GradientBanner = ({ title, subHeadline, style, arrow, children }) => (
             </Spring>
           </Col>
           {subHeadline && (
-            <Row>
-              <Spring
-                config={{ delay: 500 }}
-                from={{ opacity: 0, transform: 'translate3d(-100px,0,0)' }}
-                to={{ opacity: 100, transform: 'translate3d(0,0px,0)' }}>
-                {(props) => (
-                  <div style={props} className="text-center sub-headline">
-                    {/* if it has a json key, we'll assume it's Rich Text from Contentful */}
-                    {subHeadline.json ? (
-                      <ContentBlock content={subHeadline.json} />
-                    ) : (
-                      <p>{subHeadline}</p>
-                    )}
-                  </div>
-                )}
-              </Spring>
-            </Row>
+            <Spring
+              config={{ delay: 500 }}
+              from={{ opacity: 0, transform: 'translate3d(-100px,0,0)' }}
+              to={{ opacity: 100, transform: 'translate3d(0,0px,0)' }}>
+              {(props) => (
+                <div style={props} className="text-center sub-headline">
+                  {/* if it has a json key, we'll assume it's Rich Text from Contentful */}
+                  {subHeadline.json ? (
+                    <ContentBlock content={subHeadline.json} />
+                  ) : (
+                    <p>{subHeadline}</p>
+                  )}
+                </div>
+              )}
+            </Spring>
           )}
           <Row className="w-100 pt-4">
             <Spring

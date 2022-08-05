@@ -158,6 +158,11 @@ const icons = {
 };
 
 function ProjectTechUsed({ technologiesUsed }) {
+  console.log(
+    Object.entries(icons)
+      .map((entry) => entry[0])
+      .join(', '),
+  );
   return technologiesUsed?.length ? (
     <Section>
       <Container>
@@ -166,16 +171,31 @@ function ProjectTechUsed({ technologiesUsed }) {
           {technologiesUsed.map((tech) => (
             <Col md="2" xs="6" key={tech}>
               <Card className="border-0">
-                <a href={icons[tech].link}>
-                  <img
-                    src={icons[tech].imgPath}
-                    className="img-thumbnail img-fluid tech-stack-img"
-                    alt={icons[tech].title}
-                  />
-                </a>
-                <a href={icons[tech].link} className="text-center tech-stack-link">
-                  {icons[tech].title}
-                </a>
+                {icons[tech] ? (
+                  <>
+                    <a href={icons[tech].link}>
+                      <img
+                        src={icons[tech].imgPath}
+                        className="img-thumbnail img-fluid tech-stack-img"
+                        alt={icons[tech].title}
+                      />
+                    </a>
+                    <a href={icons[tech].link} className="text-center tech-stack-link">
+                      {icons[tech].title}
+                    </a>{' '}
+                  </>
+                ) : (
+                  <>
+                    <a>
+                      <img
+                        src={'/icons/favicon-200.png'}
+                        className="img-thumbnail img-fluid tech-stack-img"
+                        alt={tech}
+                      />
+                    </a>
+                    <a className="text-center tech-stack-link">{tech}</a>{' '}
+                  </>
+                )}
               </Card>
             </Col>
           ))}

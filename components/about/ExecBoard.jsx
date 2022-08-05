@@ -7,7 +7,7 @@ function ExecBoard({ execBoard }) {
   return (
     <Container>
       <h3 className="p-2 m-3 center">Co-Directors</h3>
-      <Row>
+      <Row className="justify-content-md-center">
         {execBoard
           .filter((x) => x.title === 'Co-Director')
           .map((member) => (

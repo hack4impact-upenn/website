@@ -5,7 +5,6 @@ import ContentBlock from '../ContentBlock';
 
 function FeatureSlider({ features }) {
   const [currFeatureHeader, setCurrFeatureHeader] = React.useState(features[0].header);
-
   return (
     <>
       <section className="pb-0">
@@ -45,7 +44,7 @@ function FeatureSlider({ features }) {
                     onClick={() => setCurrFeatureHeader(header)}>
                     <div className="pl-3">
                       <h3 className="feature-title">{header}</h3>
-                      <ContentBlock content={body.json} />
+                      {body && <ContentBlock content={body.json} />}
                     </div>
                   </button>
                 </Row>
