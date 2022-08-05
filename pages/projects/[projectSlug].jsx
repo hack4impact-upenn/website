@@ -38,7 +38,9 @@ function ProjectPage({
             </ActionButton>
           </>
         ) : (
-          <ActionButton white link={codeRepoLink}>
+          <ActionButton
+            white
+            link={codeRepoLink ? codeRepoLink : 'https://github.com/hack4impact-upenn'}>
             See our code
           </ActionButton>
         )}
@@ -83,7 +85,8 @@ function ProjectPage({
           />
         );
       })}
-      <Team members={teamMembersCollection.items} />
+      {teamMembersCollection.items.size > 0 && <Team members={teamMembersCollection.items} />}
+
       <Row className="d-flex justify-content-center mb-5">
         <ActionButton white link="/projects">
           See more of our projects

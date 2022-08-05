@@ -7,10 +7,15 @@ function ProjectCard({ title, thumbnail, urlSlug, description }) {
   return (
     <>
       <Card className="bg-light mb-3 project-card h-100" style={{ height: '100%' }}>
-        <img className="card-img-top" src={thumbnail.url} alt={thumbnail.description} />
+        <img
+          className="card-img-top"
+          style={{ height: '100p', height: '200px' }}
+          src={thumbnail.url}
+          alt={thumbnail.description}
+        />
         <CardBody>
           <h3 className="text-center">{title}</h3>
-          <div className="text-center">
+          <div className="text-center" style={{ maxHeight: '200px', overflow: 'auto' }}>
             <ContentBlock content={description.json} />
           </div>
           <div className="text-center action-btn-box">
