@@ -17,23 +17,6 @@ export default function PartnerSection() {
               alt="IMC logo"
             />
           </a>
-
-          <a href="https://stripe.com/" alt="Stripe">
-            <img
-              width="250"
-              src="/images/stripe-logo.svg"
-              className="center partner-logos"
-              alt="Stripe logo"
-            />
-          </a>
-          <a href="https://www.facebook.com/" alt="Facebook">
-            <img
-              width="150"
-              src="/images/fb-logo.svg"
-              className="center partner-logos"
-              alt="Facebook logo"
-            />
-          </a>
         </div>
         <Row>
           <div className="center partner-button">

@@ -27,7 +27,7 @@ function Projects({ projects }) {
         <h2>Section Under Construction</h2>
         <p>
           We are in the process of transfer all of our projects to our new site. A complete list of
-          pervious projects can be found{' '}
+          previous projects can be found{' '}
           <a href="https://www.notion.so/h4i/986a3351cdca44cd85e10dd4452953f5?v=6420ae90233148dfaf6f8570e680e4e5">
             here
           </a>
