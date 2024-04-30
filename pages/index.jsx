@@ -23,7 +23,7 @@ function Home({ chapterLogos, previewProjects }) {
           <InvolveSection />
         </Container>
       </Section>
-      {/* <PartnerSection /> */}
+      <PartnerSection />
       <OtherChapters chapterLogos={chapterLogos} />
     </>
   );
@@ -34,7 +34,7 @@ export default Home;
 export async function getStaticProps() {
   const {
     chapterCollection,
-    pennWebsiteLayout: { projectsCollection },  
+    pennWebsiteLayout: { projectsCollection },
   } = await fetchContent(`
   {
     chapterCollection {
