@@ -12,7 +12,7 @@
     "lint:fix": "eslint --fix \"./**/*.{js,jsx}\""
   },
   "dependencies": {
-    "next": "^10.0.4",
+    "next": "^12.0.10",
     "next-page-transitions": "^1.0.0-alpha.4",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
@@ -22,6 +22,8 @@
     "react-toastify": "^6.0.8",
     "react-vertical-timeline-component": "^3.0.2",
     "reactstrap": "^8.5.1",
+    "sass": "^1.77.8",
+    "sass-loader": "^16.0.1",
     "yarn": "^1.16.0"
   },
   "devDependencies": {
@@ -32,7 +34,7 @@
     "eslint-config-prettier": "^6.12.0",
     "eslint-plugin-prettier": "^3.3.1",
     "jest": "^27.4.7",
-    "node-sass": "^5.0.0",
+    "node-sass": "^9.0.0",
     "prettier": "^2.1.2",
     "styled-jsx-plugin-sass": "^1.0.0"
   }
