@@ -34,7 +34,10 @@ function Anchor({ link, white, className, children, ...props }) {
 
         a:hover {
           box-shadow: rgba(0, 0, 0, 0.12) 3px 5px 20px;
-          transition: border 0.2s, background 0.2s, color 0.2s ease-out;
+          transition:
+            border 0.2s,
+            background 0.2s,
+            color 0.2s ease-out;
         }
       `}</style>
     </>
@@ -43,7 +46,7 @@ function Anchor({ link, white, className, children, ...props }) {
 
 const ActionButton = (props) => {
   return props?.link.startsWith('/') ? (
-    <Link href={props?.link}>
+    <Link legacyBehavior href={props?.link}>
       <Anchor {...props} />
     </Link>
   ) : (

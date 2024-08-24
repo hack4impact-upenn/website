@@ -25,12 +25,12 @@ function Footer() {
             <h4>About the org</h4>
             <ul>
               <li>
-                <Link href="/about">
+                <Link legacyBehavior href="/about">
                   <a>About Us</a>
                 </Link>
               </li>
               <li>
-                <Link href="/projects">
+                <Link legacyBehavior href="/projects">
                   <a>Projects</a>
                 </Link>
               </li>
@@ -40,17 +40,17 @@ function Footer() {
             <h4>Apply Now</h4>
             <ul>
               <li>
-                <Link href="/apply">
+                <Link legacyBehavior href="/apply">
                   <a>How to apply</a>
                 </Link>
               </li>
               <li>
-                <Link href="/apply/students">
+                <Link legacyBehavior href="/apply/students">
                   <a>Students</a>
                 </Link>
               </li>
               <li>
-                <Link href="/apply/nonprofits">
+                <Link legacyBehavior href="/apply/nonprofits">
                   <a>Non-profits</a>
                 </Link>
               </li>

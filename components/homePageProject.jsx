@@ -4,7 +4,7 @@ import ContentBlock from './ContentBlock';
 
 function HomePageProject({ title, description, thumbnail, urlSlug }) {
   return (
-    <Link href={`/projects/${urlSlug}`}>
+    <Link legacyBehavior href={`/projects/${urlSlug}`}>
       <a>
         <div className="project-item">
           <img src={thumbnail.url} alt={thumbnail.description} />
@@ -70,7 +70,9 @@ function HomePageProject({ title, description, thumbnail, urlSlug }) {
             }
           }
           .project-item:hover {
-            box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            box-shadow:
+              0 4px 12px 0 rgba(0, 0, 0, 0.2),
+              0 6px 20px 0 rgba(0, 0, 0, 0.19);
           }
           p {
             margin: 0px;
