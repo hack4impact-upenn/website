@@ -148,7 +148,7 @@ export async function getStaticPaths() {
 // necessary to statically render all paths
 
 export async function getStaticProps({ params: { memberSlug } }) {
-  const { pennMemberProfileCollection } = await fetchContent(`
+  const data = await fetchContent(`
   {
     pennMemberProfileCollection(where: {urlSlug: "${memberSlug}"} limit: 1) {
       items {
@@ -166,11 +166,12 @@ export async function getStaticProps({ params: { memberSlug } }) {
     }
   }
   `);
-  if (!pennMemberProfileCollection?.items?.length) {
+  
+  if (!data || !data.pennMemberProfileCollection?.items?.length) {
     throw `The slug ${memberSlug} doesn't have an associated Contentful entry.
     Make sure your getStaticPaths method is pulling the right slugs!`;
   }
-  const memberContent = pennMemberProfileCollection.items[0];
+  const memberContent = data.pennMemberProfileCollection.items[0];
   return {
     props: {
       ...memberContent,
