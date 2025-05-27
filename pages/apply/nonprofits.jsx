@@ -2,7 +2,6 @@ import React from 'react';
 import Faq from '../../components/faq';
 import GradientBanner from '../../components/gradientBanner';
 import ServicesDetail from '../../components/apply/nonprofit/servicesDetail';
-import QuoteSection from '../../components/quoteSection';
 import Quote from '../../components/quote';
 import ApplicationProcess from '../../components/apply/applicationProcess';
 import Head from '../../components/head';

@@ -6,6 +6,7 @@ import groupByYearSort from '../../utils/projectYear';
 
 export default function ProjectList({ projects }) {
   const projectsByCompletion = groupBy(projects, 'completedIn');
+
   return (
     <Section>
       <Container>

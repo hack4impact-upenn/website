@@ -1,4 +1,4 @@
-import { Container, Row, Card, CardDeck, CardBody, Col } from 'reactstrap';
+import { Container, Row, Card, CardBody, Col } from 'reactstrap';
 import { useState, useEffect, useRef } from 'react';
 import styles from './styles.module.scss';
 import classNames from 'classnames';

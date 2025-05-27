@@ -158,11 +158,6 @@ const icons = {
 };
 
 function ProjectTechUsed({ technologiesUsed }) {
-  console.log(
-    Object.entries(icons)
-      .map((entry) => entry[0])
-      .join(', '),
-  );
   return technologiesUsed?.length ? (
     <Section>
       <Container>
