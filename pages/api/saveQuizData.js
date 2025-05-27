@@ -18,19 +18,19 @@ export default async function handler(req, res) {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    
+
     const db = client.db(MONGODB_DB);
-    
+
     // Save data to quizResponses collection
     const result = await db.collection('quizResponses').insertOne({
       userInfo,
       quizAnswers,
       recommendedProject,
-      timestamp: new Date()
+      timestamp: new Date(),
     });
-    
+
     await client.close();
-    
+
     res.status(200).json({ success: true, id: result.insertedId });
   } catch (error) {
     console.error('Database error:', error);

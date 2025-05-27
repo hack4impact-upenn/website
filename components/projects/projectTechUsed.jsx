@@ -158,7 +158,6 @@ const icons = {
 };
 
 function ProjectTechUsed({ technologiesUsed }) {
-  
   return technologiesUsed?.length ? (
     <Section>
       <Container>

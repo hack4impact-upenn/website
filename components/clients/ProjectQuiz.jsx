@@ -6,33 +6,34 @@ import { RotateCcw } from 'lucide-react';
 const questions = [
   {
     id: 1,
-    question: "What are the biggest pain points in your current organization that technology could address?",
+    question:
+      'What are the biggest pain points in your current organization that technology could address?',
     options: [
-      "Difficulties in delivering core programs/services efficiently",
-      "Inefficiencies in administrative or operational processes",
-      "Limited capacity to measure impact and data collection",
-      "Difficulty in engaging and expanding the community"
-    ]
+      'Difficulties in delivering core programs/services efficiently',
+      'Inefficiencies in administrative or operational processes',
+      'Limited capacity to measure impact and data collection',
+      'Difficulty in engaging and expanding the community',
+    ],
   },
   {
     id: 2,
-    question: "What is your current technology capacity?",
+    question: 'What is your current technology capacity?',
     options: [
-      "No technology in place",
-      "Basic tools in place (e.g. spreadsheets)",
-      "Using third-party digital platforms (e.g., CRM, fundraising tools)",
-      "Well-established tech infrastructure but requiring specialized solutions"
-    ]
+      'No technology in place',
+      'Basic tools in place (e.g. spreadsheets)',
+      'Using third-party digital platforms (e.g., CRM, fundraising tools)',
+      'Well-established tech infrastructure but requiring specialized solutions',
+    ],
   },
   {
     id: 3,
-    question: "What outcomes would you hope to achieve with improved technology?",
+    question: 'What outcomes would you hope to achieve with improved technology?',
     options: [
-      "Increased number of people served",
-      "Reduced administrative burden",
-      "Improved data quality for impact reporting",
-      "Enhanced stakeholder communication and engagement"
-    ]
+      'Increased number of people served',
+      'Reduced administrative burden',
+      'Improved data quality for impact reporting',
+      'Enhanced stakeholder communication and engagement',
+    ],
   },
 ];
 
@@ -42,12 +43,12 @@ const UserInfoForm = ({ onSubmit, onSkip }) => {
     email: '',
     role: '',
     nonprofitName: '',
-    nonprofitWebsite: ''
+    nonprofitWebsite: '',
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUserInfo(prev => ({ ...prev, [name]: value }));
+    setUserInfo((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
@@ -58,72 +59,79 @@ const UserInfoForm = ({ onSubmit, onSkip }) => {
   return (
     <div className="user-info-form">
       <h3>Tell Us About Your Nonprofit</h3>
-      <p>Help us understand who we're assisting so we can better support your nonprofit's needs — your recommendation will appear right after.</p>
-      
+      <p>
+        Help us understand who we're assisting so we can better support your nonprofit's needs —
+        your recommendation will appear right after.
+      </p>
+
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="name">Your Name</label>
-          <input 
-            type="text" 
-            id="name" 
-            name="name" 
-            value={userInfo.name} 
-            onChange={handleChange} 
-            required 
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={userInfo.name}
+            onChange={handleChange}
+            required
           />
         </div>
-        
+
         <div className="form-group">
           <label htmlFor="email">Your Email</label>
-          <input 
-            type="email" 
-            id="email" 
-            name="email" 
-            value={userInfo.email} 
-            onChange={handleChange} 
-            required 
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={userInfo.email}
+            onChange={handleChange}
+            required
           />
         </div>
-        
+
         <div className="form-group">
           <label htmlFor="role">Your Role</label>
-          <input 
-            type="text" 
-            id="role" 
-            name="role" 
+          <input
+            type="text"
+            id="role"
+            name="role"
             value={userInfo.role}
-            onChange={handleChange} 
-            required 
+            onChange={handleChange}
+            required
           />
         </div>
-        
+
         <div className="form-group">
           <label htmlFor="nonprofitName">Nonprofit Name</label>
-          <input 
-            type="text" 
-            id="nonprofitName" 
-            name="nonprofitName" 
+          <input
+            type="text"
+            id="nonprofitName"
+            name="nonprofitName"
             value={userInfo.nonprofitName}
-            onChange={handleChange} 
-            required 
+            onChange={handleChange}
+            required
           />
         </div>
-        
+
         <div className="form-group">
           <label htmlFor="nonprofitWebsite">Nonprofit's Website</label>
-          <input 
-            type="url" 
-            id="nonprofitWebsite" 
-            name="nonprofitWebsite" 
+          <input
+            type="url"
+            id="nonprofitWebsite"
+            name="nonprofitWebsite"
             value={userInfo.nonprofitWebsite}
-            onChange={handleChange} 
-            placeholder="https://" 
+            onChange={handleChange}
+            placeholder="https://"
           />
         </div>
-        
+
         <div className="form-actions">
-          <button type="submit" className="submit-btn">Submit</button>
-          <button type="button" className="skip-btn" onClick={onSkip}>Skip</button>
+          <button type="submit" className="submit-btn">
+            Submit
+          </button>
+          <button type="button" className="skip-btn" onClick={onSkip}>
+            Skip
+          </button>
         </div>
       </form>
 
@@ -131,22 +139,22 @@ const UserInfoForm = ({ onSubmit, onSkip }) => {
         .user-info-form {
           background: white;
           border-radius: 12px;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
           padding: 2rem;
           max-width: 600px;
           margin: 0 auto;
         }
-        
+
         .form-group {
           margin-bottom: 1.2rem;
         }
-        
+
         label {
           display: block;
           margin-bottom: 0.5rem;
           font-weight: 500;
         }
-        
+
         input {
           width: 100%;
           padding: 0.8rem;
@@ -154,13 +162,13 @@ const UserInfoForm = ({ onSubmit, onSkip }) => {
           border-radius: 6px;
           font-size: 1rem;
         }
-        
+
         .form-actions {
           display: flex;
           gap: 1rem;
           margin-top: 1.5rem;
         }
-        
+
         .submit-btn {
           background: var(--primary-blue);
           color: white;
@@ -170,7 +178,7 @@ const UserInfoForm = ({ onSubmit, onSkip }) => {
           cursor: pointer;
           flex: 1;
         }
-        
+
         .skip-btn {
           background: #f1f3f5;
           color: #495057;
@@ -179,11 +187,11 @@ const UserInfoForm = ({ onSubmit, onSkip }) => {
           border-radius: 6px;
           cursor: pointer;
         }
-        
+
         .submit-btn:hover {
           background: #0056b3;
         }
-        
+
         .skip-btn:hover {
           background: #e9ecef;
         }
@@ -200,7 +208,7 @@ const Quiz = ({ projects }) => {
   const [showUserForm, setShowUserForm] = useState(false);
   const [recommendedProject, setRecommendedProject] = useState(null);
   const [isFirstTime, setIsFirstTime] = useState(true);
-  
+
   // Initialize ProjectMatcher with the imported data
   const projectMatcher = new ProjectMatcher(projects);
 
@@ -224,26 +232,26 @@ const Quiz = ({ projects }) => {
       newAnswers[currentQuestion] = questions[currentQuestion].options[index];
       return newAnswers;
     });
-  
+
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
       processResults();
     }
   };
-  
+
   const processResults = () => {
     const results = projectMatcher.findMatches(answers);
-    
+
     // Add explanations to the top matches
     const matchesWithExplanations = projectMatcher.generateMatchExplanations(
       [results.topMatch, ...results.alternativeMatches],
-      answers
+      answers,
     );
-    
+
     // Set the recommended project
     setRecommendedProject(matchesWithExplanations[0]);
-    
+
     // If it's the first time, show the user form, otherwise show results
     if (isFirstTime) {
       setShowUserForm(true);
@@ -263,7 +271,7 @@ const Quiz = ({ projects }) => {
         body: JSON.stringify({
           userInfo,
           quizAnswers: textAnswers,
-          recommendedProject: recommendedProject.title
+          recommendedProject: recommendedProject.title,
         }),
       });
 
@@ -273,7 +281,7 @@ const Quiz = ({ projects }) => {
 
       // Mark as completed in localStorage
       localStorage.setItem('hasCompletedQuiz', 'true');
-      
+
       // Show results
       setShowUserForm(false);
       setShowResults(true);
@@ -288,7 +296,7 @@ const Quiz = ({ projects }) => {
   const handleSkipForm = () => {
     // Mark as completed in localStorage even if skipped
     localStorage.setItem('hasCompletedQuiz', 'true');
-    
+
     // Show results
     setShowUserForm(false);
     setShowResults(true);
@@ -310,23 +318,24 @@ const Quiz = ({ projects }) => {
     return (
       <div className="results-container">
         <h3>Explore How Hack4Impact Has Solved Similar Challenges!</h3>
-        <p>Based on your responses, here are projects that have tackled similar issues in the past.</p>
+        <p>
+          Based on your responses, here are projects that have tackled similar issues in the past.
+        </p>
         <div className="recommendations">
-        {recommendedProject && (
-          <div>
-            <ProjectCard
-              title={recommendedProject.title}
-              description={recommendedProject.description}
-              thumbnail={recommendedProject.thumbnail}
-              urlSlug={recommendedProject.urlSlug}
-            />
+          {recommendedProject && (
+            <div>
+              <ProjectCard
+                title={recommendedProject.title}
+                description={recommendedProject.description}
+                thumbnail={recommendedProject.thumbnail}
+                urlSlug={recommendedProject.urlSlug}
+              />
 
-
-            <div className="explanation">
-              <p>{recommendedProject.explanation}</p>
+              <div className="explanation">
+                <p>{recommendedProject.explanation}</p>
+              </div>
             </div>
-          </div>
-        )}
+          )}
         </div>
         <button className="restart-btn flex items-center gap-2" onClick={resetQuiz}>
           <RotateCcw size={18} />
@@ -339,21 +348,17 @@ const Quiz = ({ projects }) => {
   return (
     <div className="quiz-container">
       <div className="progress-bar">
-        <div 
-          className="progress" 
+        <div
+          className="progress"
           style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
         />
       </div>
-      
+
       <div className="question-card">
         <h3>{questions[currentQuestion].question}</h3>
         <div className="options">
           {questions[currentQuestion].options.map((option, index) => (
-            <button 
-              key={index}
-              className="option-btn"
-              onClick={() => handleAnswer(index)}
-            >
+            <button key={index} className="option-btn" onClick={() => handleAnswer(index)}>
               {option}
             </button>
           ))}
@@ -364,7 +369,7 @@ const Quiz = ({ projects }) => {
         .quiz-container {
           background: white;
           border-radius: 12px;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
           padding: 2rem;
         }
 

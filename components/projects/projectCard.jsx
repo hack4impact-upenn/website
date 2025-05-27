@@ -9,7 +9,7 @@ function ProjectCard({ title, thumbnail, urlSlug, description }) {
       <Card className="bg-light mb-3 project-card h-100" style={{ height: '100%' }}>
         <img
           className="card-img-top"
-          style={{ height: '100p', height: '200px' }}
+          style={{ height: '200px' }}
           src={thumbnail.url}
           alt={thumbnail.description}
         />

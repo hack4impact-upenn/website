@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Card, CardDeck, CardBody, Col } from 'reactstrap';
+import { Container, Row, Card, CardBody, Col } from 'reactstrap';
 import Section from '../section';
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
 
@@ -13,8 +13,9 @@ const OurValues = ({ content }) => {
           </div>
         </Row>
         <Row>
-          {content.map(({ header, body, image }) => (
+          {content.map(({ header, body }) => (
             <Col
+              key={header}
               md="4"
               sm="6"
               style={{
@@ -22,7 +23,7 @@ const OurValues = ({ content }) => {
                 height: '400px',
                 width: '400px',
               }}>
-              <Card key={header}>
+              <Card>
                 {/* <img className="card-img-top" src={image.url} alt={image.description} /> */}
                 <CardBody
                   style={{

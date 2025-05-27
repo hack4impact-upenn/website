@@ -44,9 +44,10 @@ function QuizPage({ projects }) {
           <Col lg={8} className="d-flex flex-column">
             <h1 className="display-6 mt-10 mb-4">Find the Right Technology Solution</h1>
             <p className="lead ">
-              Answer a few questions about your nonprofit's needs, and we'll help you identify the best technology solutions.
+              Answer a few questions about your nonprofit's needs, and we'll help you identify the
+              best technology solutions.
             </p>
-            
+
             <div className="quiz-wrapper mt-2 mb-5">
               <Quiz projects={projects} />
             </div>
@@ -79,4 +80,4 @@ function QuizPage({ projects }) {
   );
 }
 
-export default QuizPage; 
+export default QuizPage;
