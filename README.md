@@ -12,7 +12,7 @@ This template is built for generating a _static, super-efficient_ website that y
 
 ### Notion 📚
 
-Our member and project databases now live in [**Notion**]([https://www.contentful.com/](https://www.notion.so/h4i/24c197abf07b80b0ac31e34a6912c105?v=24c197abf07b8060b808000c027a9991&source=copy_link)) for easy editing and integration with our existing workflow around Notion. The API is owned by Khoa L., the current national executive director.
+[Hack4Impact Penn Notion](https://www.notion.so/h4i/Hack4Impact-Penn-cdd675655ad74f7fbb8c96b0e03a52fd?source=copy_link). Our member and project databases now live in [**Notion**]([https://www.contentful.com/](https://www.notion.so/h4i/24c197abf07b80b0ac31e34a6912c105?v=24c197abf07b8060b808000c027a9991&source=copy_link)) for easy editing and integration with our existing workflow around Notion. The API is owned by Khoa L., the current national executive director.
 
 ### Contentful 📝
 
