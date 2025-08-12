@@ -4,11 +4,15 @@
 
 ## Our tech stack
 
-This template is built for generating a _static, super-efficient_ website that you can easily update overtime. For this, NextJS + Contentful formed the perfect dream team.
+This template is built for generating a _static, super-efficient_ website that you can easily update overtime. For this, NextJS + Notion API (new) + Contentful formed the perfect dream team.
 
 ### NextJS ⚙️
 
 [**NextJS**](https://nextjs.org/) is a great match for static sites, especially if you're already familiar with React. The main benefit is **flexibility:** you can build most of your site to _static,_ super-efficient HTML. Then, as your site expands, you can explore [server rendering and caching](https://medium.com/walmartglobaltech/the-benefits-of-server-side-rendering-over-client-side-rendering-5d07ff2cefe8) with almost zero extra setup. This opens to door for admin portals, nonprofit dashboards, and more!
+
+### Notion 📚
+
+Our member and project databases now live in [**Notion**]([https://www.contentful.com/](https://www.notion.so/h4i/24c197abf07b80b0ac31e34a6912c105?v=24c197abf07b8060b808000c027a9991&source=copy_link)) for easy editing and integration with our existing workflow around Notion. The API is owned by Khoa L., the current national executive director.
 
 ### Contentful 📝
 
@@ -21,6 +25,12 @@ Have a new nonprofit project page to create? Need to update applications for the
 If you're unfamiliar with connecting NextJS and Contentful using GraphQL, read this article before proceeding 👇
 
 [**NextJS, Contentful CMS, GraphQL, oh my!**](https://dev.to/hack4impact/nextjs-contentful-cms-graphql-oh-my-352o)
+
+## Set up Notion
+
+If you're unfamiliar with connecting Notion, read this article before proceeding 👇
+
+[**Notion Integration Capabilities**](https://developers.notion.com/reference/intro)
 
 ### Set your environment variables
 
@@ -37,6 +47,13 @@ NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN=
 NEXT_PUBLIC_CONTENTFUL_SPACE_ID=
 # ID for your Website Layout model
 LAYOUT_ENTRY_ID=
+# Access token that a third-party service can use to authenticate with Notion (owned by Khoa L.)
+NOTION_TOKEN=
+# Member DB in Notion: https://www.notion.so/h4i/24c197abf07b80dd9301e72cd41b1b39?v=24c197abf07b8060b808000c027a9991&source=copy_link
+NOTION_MEMBERS_DATABASE_ID=
+# Project DB in Notion: https://www.notion.so/h4i/24c197abf07b80b0ac31e34a6912c105?v=24c197abf07b80d8994b000cf0f1026c&source=copy_link
+NOTION_PROJECTS_DATABASE_ID=
+
 ```
 
 ### Create a new Website Layout entry
@@ -88,6 +105,6 @@ We recommend deploying your site using [Netlify](https://www.netlify.com). It of
 
 Hit the button at the top of this repo to try it out! Just don't forget to [set the environment variables](https://docs.netlify.com/configure-builds/environment-variables/) to the contents of your `.env`. Your build command will be `npm run export`.
 
-### Redeploy on Contentful changes
+### Redeploy on Notion / Contentful changes
 
-Netlify lets you set up "webhooks," which trigger redeploys on certain conditions. Just [read this guide](https://www.contentful.com/developers/docs/tutorials/general/automate-site-builds-with-webhooks/) to get set up! You should be able to use the webhook already configured in our Contentful space.
+Netlify lets you set up "webhooks," which trigger redeploys on certain conditions. Just [read this guide](https://www.contentful.com/developers/docs/tutorials/general/automate-site-builds-with-webhooks/) to get set up! You should be able to use the webhook already configured in our Contentful space. Notion does not have webhook configured yet, so should redeploy when we wish the website to reflect the changes in the database.
