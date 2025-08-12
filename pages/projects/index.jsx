@@ -7,6 +7,7 @@ import fetchNotionContent from '../../utils/fetchContent';
 import ActionButton from '../../components/actionButton';
 
 function Projects({ projects }) {
+  console.log(projects);
   return (
     <div>
       <Head title="Our Work" />

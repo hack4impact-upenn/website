@@ -102,16 +102,16 @@ export async function getStaticPaths() {
     
     const paths = allMembers.memberCollection.items
       .filter(member => !!member.urlSlug)
-      .map(({ urlSlug }) => ({
-        params: {
-          memberSlug: urlSlug,
-        },
-      }));
+    .map(({ urlSlug }) => ({
+      params: {
+        memberSlug: urlSlug,
+      },
+    }));
 
-    return {
-      paths,
-      fallback: false,
-    };
+  return {
+    paths,
+    fallback: false,
+  };
   } catch (error) {
     console.error('Error in getStaticPaths:', error);
     return {
@@ -124,11 +124,11 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params: { memberSlug } }) {
   try {
     const memberData = await fetchMemberDetail(memberSlug);
-    
+
     if (!memberData) {
       console.error(`No member found with slug: ${memberSlug}`);
-      return { notFound: true };
-    }
+    return { notFound: true };
+  }
 
     return {
       props: memberData,

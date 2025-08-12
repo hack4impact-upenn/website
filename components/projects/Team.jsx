@@ -1,10 +1,10 @@
 import MemberIcon from '../memberIcon';
 import { Container, Row } from 'reactstrap';
 
-function Team({ members }) {
+function Team({ title, members }) {
   return (
     <section className="pt-5 mt-5">
-      <h2>Team Members</h2>
+      <h2>{title}</h2>
       <Container>
         <Row>
           {members.map((member) => (

@@ -76,9 +76,7 @@ function parseFeatureCollection(featureImagesText, featureDescriptionsText) {
       url: url,
       description: descriptions[index] || `Feature ${index + 1} screenshot`
     },
-    body: {
-      json: descriptions[index] || `Description for feature ${index + 1}`
-    }
+    body: descriptions[index] || `Description for feature ${index + 1}` // ← Return plain text, not wrapped in json
   }));
 }
 
@@ -122,6 +120,12 @@ export async function fetchProjectDetail(urlSlug) {
       },
       testimonialsCollection: {
         items: [] 
+      },
+      pmtlCollection: {
+        items: properties.pmtl?.people?.map(person => ({
+          name: person.name || 'Team Member',
+          image: { url: person.avatar_url || '' },
+        })) || []
       },
       teamMembersCollection: {
         items: properties.team?.people?.map(person => ({
@@ -226,7 +230,12 @@ export async function fetchNotionContent(type, options = {}) {
         throw new Error(`Unknown content type: ${type}`);
     }
   } catch (error) {
-    console.error(`There was a problem retrieving content for type ${type}:`, error);
+    console.error(`DETAILED ERROR fetching ${type}:`, {
+      message: error.message,
+      code: error.code,
+      status: error.status,
+      stack: error.stack
+    });
     throw error;
   }
 }

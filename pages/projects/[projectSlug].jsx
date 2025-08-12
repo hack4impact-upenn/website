@@ -23,6 +23,7 @@ function ProjectPage({
   testimonialsCollection,
   technologiesUsed,
   teamMembersCollection,
+  pmtlCollection,
 }) {
   return (
     <>
@@ -85,8 +86,8 @@ function ProjectPage({
           />
         );
       })}
-      {teamMembersCollection.items.length > 0 && <Team members={teamMembersCollection.items} />}
-
+      {pmtlCollection.items.length > 0 && <Team title="Project Leads" members={pmtlCollection.items} />}
+      {teamMembersCollection.items.length > 0 && <Team title="Team Members" members={teamMembersCollection.items} />}
       <Row className="d-flex justify-content-center mb-5">
         <ActionButton white link="/projects">
           See more of our projects
@@ -119,22 +120,22 @@ export default ProjectPage;
 
 export async function getStaticPaths() {
   try {
-    const {
-      pennWebsiteLayout: { projectsCollection },
+  const {
+    pennWebsiteLayout: { projectsCollection },
     } = await fetchNotionContent('projects');
 
-    const paths = projectsCollection.items
+  const paths = projectsCollection.items
       .filter((x) => !!x && !!x.urlSlug)
-      .map(({ urlSlug }) => ({
-        params: {
-          projectSlug: urlSlug,
-        },
-      }));
+    .map(({ urlSlug }) => ({
+      params: {
+        projectSlug: urlSlug,
+      },
+    }));
 
-    return {
-      paths,
-      fallback: false,
-    };
+  return {
+    paths,
+    fallback: false,
+  };
   } catch (error) {
     console.error('Error in getStaticPaths:', error);
     return {
@@ -150,15 +151,15 @@ export async function getStaticProps({ params: { projectSlug } }) {
     
     if (!formattedProject) {
       throw new Error(`No project found with slug: ${projectSlug}`);
-    }
+  }
 
-    return {
+  return {
       props: formattedProject,
     };
   } catch (error) {
     console.error('Error fetching project detail:', error);
     return {
       notFound: true,
-    };
+  };
   }
 }
