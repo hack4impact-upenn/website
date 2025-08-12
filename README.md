@@ -12,7 +12,7 @@ This template is built for generating a _static, super-efficient_ website that y
 
 ### Notion 📚
 
-[**Hack4Impact Penn Notion**](https://www.notion.so/h4i/Hack4Impact-Penn-cdd675655ad74f7fbb8c96b0e03a52fd?source=copy_link). Our member and project databases now live in [**Notion**]([https://www.contentful.com/](https://www.notion.so/h4i/24c197abf07b80b0ac31e34a6912c105?v=24c197abf07b8060b808000c027a9991&source=copy_link)) for easy editing and integration with our existing workflow around Notion. The API is owned by Khoa L., the current national executive director.
+[**Hack4Impact Penn Notion**](https://www.notion.so/h4i/Hack4Impact-Penn-cdd675655ad74f7fbb8c96b0e03a52fd?source=copy_link). Our member and project databases now live in [**Notion**]([https://www.contentful.com/](https://www.notion.so/h4i/24c197abf07b80b0ac31e34a6912c105?v=24c197abf07b8060b808000c027a9991&source=copy_link)) for editing and integration with our existing workflow around Notion. Our Notion API is owned by Khoa L., the current national executive director.
 
 ### Contentful 📝
 
@@ -107,4 +107,4 @@ Hit the button at the top of this repo to try it out! Just don't forget to [set 
 
 ### Redeploy on Notion / Contentful changes
 
-Netlify lets you set up "webhooks," which trigger redeploys on certain conditions. Just [read this guide](https://www.contentful.com/developers/docs/tutorials/general/automate-site-builds-with-webhooks/) to get set up! You should be able to use the webhook already configured in our Contentful space. Notion does not have webhook configured yet, so should redeploy when we wish the website to reflect the changes in the database.
+Netlify lets you set up "webhooks," which trigger redeploys on certain conditions. Just [read this guide](https://www.contentful.com/developers/docs/tutorials/general/automate-site-builds-with-webhooks/) to get set up! You should be able to use the webhook already configured in our Contentful space. We have not configured a webhook for Notion as it made sense to update the member and project database semesterly and manually trigger reployment rather than real-time updates.
