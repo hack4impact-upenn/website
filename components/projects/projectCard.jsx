@@ -16,7 +16,7 @@ function ProjectCard({ title, thumbnail, urlSlug, description }) {
         <CardBody>
           <h3 className="text-center">{title}</h3>
           <div className="text-center" style={{ maxHeight: '200px', overflow: 'auto' }}>
-            <ContentBlock content={description.json} />
+            {description}
           </div>
           <div className="text-center action-btn-box">
             <ActionButton white link={`/projects/${urlSlug}`}>

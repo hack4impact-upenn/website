@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from '../../components/head';
-import fetchContent from '../../utils/fetchContent';
+import { fetchNotionContent, fetchMemberDetail } from '../../utils/fetchContent';
 import { Row, Col } from 'reactstrap';
 import ActionButton from '../../components/actionButton';
 
@@ -95,97 +95,46 @@ function MemberPage({ name, title, image, linkedIn, bio, classOf, email, github 
 
 export default MemberPage;
 
-// necessary to statically render all paths
 export async function getStaticPaths() {
-  const {
-    pennWebsiteLayout: { membersCollection },
-  } = await fetchContent(`
-  {
-    pennWebsiteLayout(id: "${process.env.LAYOUT_ENTRY_ID}") {
-      membersCollection {
-        items {
-          urlSlug
-        }
-      }
-    }
-  }
-  `);
+  try {
+    // Get all members from Notion
+    const allMembers = await fetchNotionContent('members');
+    
+    const paths = allMembers.memberCollection.items
+      .filter(member => !!member.urlSlug)
+      .map(({ urlSlug }) => ({
+        params: {
+          memberSlug: urlSlug,
+        },
+      }));
 
-  const {
-    pennWebsiteLayout: { alumniCollection },
-  } = await fetchContent(`
-  {
-    pennWebsiteLayout(id: "${process.env.LAYOUT_ENTRY_ID}") {
-      alumniCollection {
-        items {
-          urlSlug
-        }
-      }
-    }
+    return {
+      paths,
+      fallback: false,
+    };
+  } catch (error) {
+    console.error('Error in getStaticPaths:', error);
+    return {
+      paths: [],
+      fallback: false,
+    };
   }
-  `);
-  const memberPaths = membersCollection.items
-    .filter((x) => !!x.urlSlug)
-    .map(({ urlSlug }) => ({
-      params: {
-        memberSlug: urlSlug,
-      },
-    }));
-  const alumniPaths = alumniCollection.items
-    .filter((x) => !!x.urlSlug)
-    .map(({ urlSlug }) => ({
-      params: {
-        memberSlug: urlSlug,
-      },
-    }));
-  const paths = memberPaths.concat(alumniPaths);
-  return {
-    paths,
-    fallback: false,
-  };
 }
 
-// necessary to statically render all paths
-
 export async function getStaticProps({ params: { memberSlug } }) {
-  const data = await fetchContent(`
-  {
-    pennMemberProfileCollection(where: {urlSlug: "${memberSlug}"} limit: 1) {
-      items {
-        name
-        title
-        image {
-          url
-          description
-        }
-        linkedIn
-        bio
-        classOf
-        email
-        github
-      }
+  try {
+    const memberData = await fetchMemberDetail(memberSlug);
+    
+    if (!memberData) {
+      console.error(`No member found with slug: ${memberSlug}`);
+      return { notFound: true };
     }
-  }
-  `);
 
-  if (!data) {
-    console.error(`No data returned for slug: ${memberSlug}`);
+    return {
+      props: memberData,
+    };
+  } catch (error) {
+    console.error('Error fetching member detail:', error);
     return { notFound: true };
   }
-
-  if (
-    !data.pennMemberProfileCollection ||
-    !data.pennMemberProfileCollection.items ||
-    data.pennMemberProfileCollection.items.length === 0
-  ) {
-    console.error(`No profile found for slug: ${memberSlug}`);
-    return { notFound: true };
-  }
-
-  const memberContent = data.pennMemberProfileCollection.items[0];
-  return {
-    props: {
-      ...memberContent,
-    },
-  };
 }

@@ -6,7 +6,7 @@ import Quote from '../../components/quote';
 import ApplicationProcess from '../../components/apply/applicationProcess';
 import Head from '../../components/head';
 import ActionButton from '../../components/actionButton';
-import fetchContent from '../../utils/fetchContent';
+import { fetchContent } from '../../utils/fetchContent';
 
 function Students({
   applicationLink,
