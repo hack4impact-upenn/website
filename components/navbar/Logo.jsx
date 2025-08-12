@@ -3,7 +3,7 @@ import Link from 'next/link';
 function Logo() {
   return (
     <>
-      <Link href="/">
+      <Link legacyBehavior href="/">
         {/* FIX: logo should not be hard coded */}
         <a className="image-container" ariaLabel="Go to homepage">
           <img

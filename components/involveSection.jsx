@@ -9,7 +9,7 @@ const InvolveSection = () => (
     <Col md="5">
       <div className="involved-container">
         <h3 className="text-title text-center">Students</h3>
-        <Link href="/apply/students">
+        <Link legacyBehavior href="/apply/students">
           <a>
             <img src="/images/retreat-2020.jpg" className="img-fluid" alt="Sp18 team" />
           </a>
@@ -36,7 +36,7 @@ const InvolveSection = () => (
     <Col md="5" className="offset-md-2">
       <div className="involved-container">
         <h3 className="text-title text-center">Nonprofits</h3>
-        <Link href="/apply/students">
+        <Link legacyBehavior href="/apply/students">
           <a>
             <img
               src="/images/philly_food_finder.jpg"

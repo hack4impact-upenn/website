@@ -6,7 +6,7 @@ import PartnerSection from '../components/homepage/partnerSection';
 import OtherChapters from '../components/homepage/otherChapters';
 import { ToastContainer } from 'react-toastify';
 import Head from '../components/head';
-import fetchContent from '../utils/fetchContent';
+import fetchNotionContent from '../utils/fetchContent';
 import Section from '../components/section';
 import { Container } from 'reactstrap';
 
@@ -24,7 +24,7 @@ function Home({ chapterLogos, previewProjects }) {
         </Container>
       </Section>
       <PartnerSection />
-      <OtherChapters chapterLogos={chapterLogos} />
+      {/* <OtherChapters chapterLogos={chapterLogos} /> */}
     </>
   );
 }
@@ -35,36 +35,8 @@ export async function getStaticProps() {
   const {
     chapterCollection,
     pennWebsiteLayout: { projectsCollection },
-  } = await fetchContent(`
-  {
-    chapterCollection {
-      items {
-        name
-        websiteLink
-        socialMediaLink
-        codeRepoLink
-        universityLogo {
-          url
-        }
-      }
-    }
-    pennWebsiteLayout(id: "${process.env.LAYOUT_ENTRY_ID}") {
-      projectsCollection(limit: 3) {
-        items {
-          title
-          description {
-            json
-          }
-          thumbnail {
-            url
-            description
-          }
-          urlSlug
-        }
-      }
-    }
-  }
-  `);
+  } = await fetchNotionContent('homepage');
+  
   return {
     props: {
       chapterLogos: chapterCollection.items.map(

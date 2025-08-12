@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
 import { Spring } from 'react-spring/renderprops.cjs';
-import ContentBlock from '../ContentBlock';
+import TextBlock from '../TextBlock';
 
 function FeatureSlider({ features }) {
   const [currFeatureHeader, setCurrFeatureHeader] = React.useState(features[0].header);
@@ -23,7 +23,7 @@ function FeatureSlider({ features }) {
                           <img
                             className="img-fluid shadow"
                             src={image.url}
-                            alt={image.description}
+                            alt={image.description.json}
                           />
                         </div>
                       )}
@@ -44,7 +44,7 @@ function FeatureSlider({ features }) {
                     onClick={() => setCurrFeatureHeader(header)}>
                     <div className="pl-3">
                       <h3 className="feature-title">{header}</h3>
-                      {body && <ContentBlock content={body.json} />}
+                      {body && <TextBlock content={body} />}
                     </div>
                   </button>
                 </Row>

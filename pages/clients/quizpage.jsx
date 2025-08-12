@@ -2,7 +2,7 @@ import React from 'react';
 import Head from '../../components/head';
 import { Container, Row, Col } from 'reactstrap';
 import Quiz from '../../components/clients/ProjectQuiz';
-import fetchContent from '../../utils/fetchContent';
+import {fetchContent} from '../../utils/fetchContent';
 
 export async function getStaticProps() {
   const {

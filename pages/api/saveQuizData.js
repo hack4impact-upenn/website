@@ -2,7 +2,7 @@ import { MongoClient } from 'mongodb';
 
 // MongoDB connection string - replace with your actual connection string
 // You should use environment variables for this in production
-const MONGODB_URI = process.env.MONGODB_URI;
+// const MONGODB_URI = process.env.MONGODB_URI;
 const MONGODB_DB = process.env.MONGODB_DB || 'Hack4ImpactUPenn';
 
 export default async function handler(req, res) {
@@ -14,7 +14,7 @@ export default async function handler(req, res) {
 
   try {
     // Connect to MongoDB
-    const client = await MongoClient.connect(MONGODB_URI, {
+    const client = await MongoClient.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
