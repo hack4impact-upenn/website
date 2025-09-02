@@ -23,6 +23,16 @@ function Projects({ projects }) {
                 continue to be used for years to come. ">
         <ActionButton link="https://github.com/hack4impact-upenn">See our GitHub</ActionButton>
       </GradientBanner>
+      <div style={{ textAlign: 'center', paddingRight: '5px' }}>
+        <h2>Section Under Construction</h2>
+        <p>
+          We are in the process of transfer all of our projects to our new site. A complete list of
+          previous projects can be found{' '}
+          <a href="https://www.notion.so/h4i/986a3351cdca44cd85e10dd4452953f5?v=6420ae90233148dfaf6f8570e680e4e5">
+            here
+          </a>
+        </p>
+      </div>
       <ProjectList projects={projects} />
     </div>
   );
