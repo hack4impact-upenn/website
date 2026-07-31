@@ -63,6 +63,7 @@ export async function getStaticProps() {
         alumni: alumni,
         execBoard: execBoard
       },
+      revalidate: 60,
     };
   } catch (error) {
     console.error('Error fetching about page data:', error);
@@ -73,6 +74,7 @@ export async function getStaticProps() {
         values: [],
         execBoard: []
       },
+      revalidate: 60,
     };
   }
 }
