@@ -24,7 +24,7 @@ function formatMemberData(page) {
   const properties = page.properties;
   return {
     name: safeExtract(properties.name?.title),
-    title: properties.title?.select?.name,
+    title: properties.title?.select?.name || '',
     image: {
       url: properties.image?.url || ''
     },
@@ -244,7 +244,7 @@ export async function fetchNotionContent(type, options = {}) {
 export async function fetchContent(query) {
   try {
     const res = await fetch(
-      `https://graphql.contentful.com/content/v1/spaces/${space}/environments/master`,
+      `https://graphql.contentful.com/content/v1/spaces/${space}/environments/main`,
       {
         method: 'POST',
         headers: {

@@ -26,55 +26,56 @@ function AboutPage({ members, alumni, values, execBoard }) {
 export default AboutPage;
 
 export async function getStaticProps() {
-  try {
-    // Fetch values from Contentful and all members from Notion
-    const [contentfulData, allMembers] = await Promise.all([
-      fetchContent(`
-      {
-        pennWebsiteLayout(id: "${process.env.LAYOUT_ENTRY_ID}") {
-          chapterValuesCollection {
-            items {
-              header
-              body {
-                json
-              }
-              image {
-                url
-                description
-              }
+  // Fetch values from Contentful and all members from Notion independently,
+  // so a failure in one CMS doesn't wipe out data from the other.
+  const [contentfulResult, notionResult] = await Promise.allSettled([
+    fetchContent(`
+    {
+      pennWebsiteLayout(id: "${process.env.LAYOUT_ENTRY_ID}") {
+        chapterValuesCollection {
+          items {
+            header
+            body {
+              json
+            }
+            image {
+              url
+              description
             }
           }
         }
       }
-      `),
-      fetchNotionContent('members')
-    ]);
+    }
+    `),
+    fetchNotionContent('members')
+  ]);
 
-    const membersList = allMembers.memberCollection.items;
-    const activeMembers = membersList.filter(member => member.status === 'Active');
-    const alumni = membersList.filter(member => member.status === 'Alumni');
-    const execBoard = membersList.filter(member => member.title === 'Co-Director' || /chair/i.test(member.title));
-
-
-    return {
-      props: {
-        values: contentfulData.pennWebsiteLayout.chapterValuesCollection.items,
-        members: activeMembers,
-        alumni: alumni,
-        execBoard: execBoard
-      },
-      revalidate: 60,
-    };
-  } catch (error) {
-    console.error('Error fetching about page data:', error);
-    return {
-      props: {
-        members: [],
-        alumni: [],
-        values: [],
-        execBoard: []
-      },
-      revalidate: 60,
-    };
+  let values = [];
+  if (contentfulResult.status === 'fulfilled') {
+    values = contentfulResult.value?.pennWebsiteLayout?.chapterValuesCollection?.items ?? [];
+  } else {
+    console.error('Error fetching Contentful values:', contentfulResult.reason);
   }
+
+  let members = [];
+  let alumni = [];
+  let execBoard = [];
+  if (notionResult.status === 'fulfilled') {
+    const membersList = notionResult.value.memberCollection.items;
+    members = membersList.filter(member => member.status === 'Active');
+    alumni = membersList.filter(member => member.status === 'Alumni');
+    execBoard = membersList.filter(member => member.title === 'Co-Director' || /chair/i.test(member.title));
+  } else {
+    console.error('Error fetching Notion members:', notionResult.reason);
+  }
+
+  return {
+    props: {
+      values,
+      members,
+      alumni,
+      execBoard
+    },
+    revalidate: 60,
+  };
 }

@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { IoMdArrowDropright as ArrowIcon } from 'react-icons/io';
 
 const OurValues = ({ content }) => {
-  const [selected, setSelected] = useState(3);
+  const [selected, setSelected] = useState(() => Math.min(3, content.length - 1));
   const [displayValues, setDisplayValues] = useState([]);
   const [moveToNext, setMoveToNext] = useState(false);
   const autoScrollInterval = useRef(null);
@@ -30,6 +30,10 @@ const OurValues = ({ content }) => {
   useEffect(() => {
     // whenever we need to move to the next element...
     if (moveToNext) {
+      if (content.length === 0) {
+        setMoveToNext(false);
+        return;
+      }
       // change which card is focused (wrapping to the start of the list if necessary)
       setSelected((selected + 1) % content.length);
       // once we're done scrolling to our focused card...
@@ -59,7 +63,7 @@ const OurValues = ({ content }) => {
           {displayValues.map(({ header, body, image }) => (
             <article
               className={classNames(styles.value_card, {
-                [styles.selected]: content[selected].header === header,
+                [styles.selected]: content[selected]?.header === header,
               })}
               key={header}
               style={{ borderColor: '#0094FF' }}>
