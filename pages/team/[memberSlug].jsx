@@ -132,7 +132,6 @@ export async function getStaticProps({ params: { memberSlug } }) {
 
     return {
       props: memberData,
-      revalidate: 60,
     };
   } catch (error) {
     console.error('Error fetching member detail:', error);

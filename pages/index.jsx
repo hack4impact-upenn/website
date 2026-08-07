@@ -49,6 +49,5 @@ export async function getStaticProps() {
       ),
       previewProjects: projectsCollection.items,
     },
-    revalidate: 60,
   };
 }
