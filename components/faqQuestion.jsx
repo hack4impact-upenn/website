@@ -1,6 +1,5 @@
 import React from 'react';
 import { Collapse } from 'reactstrap';
-import ContentBlock from './ContentBlock';
 
 function FaqQuestion({ question, answer }) {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -15,7 +14,7 @@ function FaqQuestion({ question, answer }) {
         {/* eslint-enable */}
         <Collapse isOpen={isOpen}>
           <div className="answer">
-            <ContentBlock content={answer.json} />
+            <p>{answer}</p>
           </div>
         </Collapse>
       </div>

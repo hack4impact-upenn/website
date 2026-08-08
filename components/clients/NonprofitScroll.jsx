@@ -1,7 +1,6 @@
 /* eslint-disable no-magic-numbers */
 import React, { useEffect, useState, useRef } from 'react';
 import { Container, Row, Col } from 'reactstrap';
-import ActionButton from '../actionButton';
 import BlockQuote from '../blockQuote';
 
 const NonprofitScroll = () => {
@@ -134,12 +133,6 @@ const NonprofitScroll = () => {
                   Answer a few quick questions, and we'll suggest potential software solutions
                   hack4impact has built for other nonprofits.
                 </p>
-
-                <div style={{ marginTop: '2rem' }}>
-                  <ActionButton white link="/clients/quizpage">
-                    Start
-                  </ActionButton>
-                </div>
 
                 {/* Back to top button */}
                 <div className="mt-4">

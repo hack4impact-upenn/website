@@ -1,6 +1,5 @@
 import React from 'react';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
-import ContentBlock from '../ContentBlock';
 
 function Icon({ src, alt }) {
   return (
@@ -28,7 +27,7 @@ function Timeline({ steps }) {
             icon={<Icon src={image.url} alt={image.description} />}
             key={header}>
             <h3 className="vertical-timeline-element-title">{header}</h3>
-            <ContentBlock content={body.json} />
+            <p>{body}</p>
           </VerticalTimelineElement>
         ))}
     </VerticalTimeline>

@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import ContentBlock from './ContentBlock';
 
 function HomePageProject({ title, description, thumbnail, urlSlug }) {
   return (
@@ -9,7 +8,7 @@ function HomePageProject({ title, description, thumbnail, urlSlug }) {
         <div className="project-item">
           <img src={thumbnail.url} alt={thumbnail.description} />
           <h4>{title}</h4>
-          <ContentBlock content={description.json} />
+          <p>{description}</p>
         </div>
         <style jsx>{`
           @media (max-width: 768px) {

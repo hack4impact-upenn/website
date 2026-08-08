@@ -56,10 +56,55 @@ function formatProjectData(page) {
   };
 }
 
+function formatPartnerData(page) {
+  const properties = page.properties;
+  return {
+    name: safeExtract(properties.name?.title),
+    logoUrl: properties.logoUrl?.url || '',
+    link: properties.link?.url || '',
+    tier: properties.tier?.select?.name || '',
+    order: properties.order?.number ?? 0,
+  };
+}
+
 function formatRichTextForContentBlock(richTextArray) {
   if (!richTextArray || !Array.isArray(richTextArray)) return '';
   
   return safeExtract(richTextArray);
+}
+
+// Helper function to read a database row's title property regardless of its column name
+function getTitleText(properties) {
+  const titleProp = Object.values(properties).find((prop) => prop.type === 'title');
+  return safeExtract(titleProp?.title || []);
+}
+
+function formatTimelineStep(page) {
+  const properties = page.properties;
+  return {
+    header: safeExtract(properties.header?.rich_text || []),
+    body: safeExtract(properties.bodyText?.rich_text || []),
+    image: {
+      url: properties.imageUrl?.url || '',
+      description: safeExtract(properties.imageDescription?.rich_text || []),
+    },
+  };
+}
+
+function formatTestimonial(page) {
+  const properties = page.properties;
+  return {
+    author: safeExtract(properties.author?.rich_text || []),
+    quote: safeExtract(properties.quote?.rich_text || []),
+  };
+}
+
+function formatFaq(page) {
+  const properties = page.properties;
+  return {
+    question: safeExtract(properties.question?.rich_text || []),
+    answer: safeExtract(properties.answer?.rich_text || []),
+  };
 }
 
 // Helper function to parse comma-separated feature data
@@ -142,6 +187,73 @@ export async function fetchProjectDetail(urlSlug) {
   }
 }
 
+// applicationType is either 'Students' or 'Organizations', matching the title
+// values in the Applications database and the applicationType select options
+// in the Timeline/Testimonials/FAQs databases.
+export async function fetchApplicationContent(applicationType) {
+  const empty = {
+    applicationLink: '',
+    openRolesLink: '',
+    description: '',
+    timelineCollection: { items: [] },
+    testimonialsCollection: { items: [] },
+    faqsCollection: { items: [] },
+  };
+
+  const [applicationResult, timelineResult, testimonialsResult, faqsResult] = await Promise.allSettled([
+    notion.databases.query({ database_id: process.env.NOTION_APPLICATIONS_DATABASE_ID }),
+    notion.databases.query({
+      database_id: process.env.NOTION_TIMELINE_DATABASE_ID,
+      filter: { property: 'applicationType', select: { equals: applicationType } },
+      sorts: [{ property: 'order', direction: 'ascending' }],
+    }),
+    notion.databases.query({
+      database_id: process.env.NOTION_TESTIMONIALS_DATABASE_ID,
+      filter: { property: 'applicationType', select: { equals: applicationType } },
+      sorts: [{ property: 'order', direction: 'ascending' }],
+    }),
+    notion.databases.query({
+      database_id: process.env.NOTION_FAQS_DATABASE_ID,
+      filter: { property: 'applicationType', select: { equals: applicationType } },
+      sorts: [{ property: 'order', direction: 'ascending' }],
+    }),
+  ]);
+
+  if (applicationResult.status === 'fulfilled') {
+    const appPage = applicationResult.value.results.find(
+      (page) => getTitleText(page.properties) === applicationType
+    );
+    if (appPage) {
+      const properties = appPage.properties;
+      empty.applicationLink = properties.applicationLink?.url || '';
+      empty.openRolesLink = properties.openRolesLink?.url || '';
+      empty.description = safeExtract(properties.description?.rich_text || []);
+    }
+  } else {
+    console.error(`Error fetching application info for ${applicationType}:`, applicationResult.reason);
+  }
+
+  if (timelineResult.status === 'fulfilled') {
+    empty.timelineCollection.items = timelineResult.value.results.map(formatTimelineStep);
+  } else {
+    console.error(`Error fetching timeline for ${applicationType}:`, timelineResult.reason);
+  }
+
+  if (testimonialsResult.status === 'fulfilled') {
+    empty.testimonialsCollection.items = testimonialsResult.value.results.map(formatTestimonial);
+  } else {
+    console.error(`Error fetching testimonials for ${applicationType}:`, testimonialsResult.reason);
+  }
+
+  if (faqsResult.status === 'fulfilled') {
+    empty.faqsCollection.items = faqsResult.value.results.map(formatFaq);
+  } else {
+    console.error(`Error fetching FAQs for ${applicationType}:`, faqsResult.reason);
+  }
+
+  return empty;
+}
+
 export async function fetchMemberDetail(urlSlug) {
   try {
     const memberResponse = await notion.databases.query({
@@ -215,15 +327,27 @@ export async function fetchNotionContent(type, options = {}) {
           }
         };
 
+      case 'partners':
+        const partnerResponse = await notion.databases.query({
+          database_id: process.env.NOTION_PARTNERS_DATABASE_ID,
+        });
+        return {
+          partnerCollection: {
+            items: partnerResponse.results.map(formatPartnerData)
+          }
+        };
+
       case 'homepage':
-        // Fetch both chapters and projects for homepage
-        const [chaptersData, projectsData] = await Promise.all([
+        // Fetch chapters, projects, and partners for homepage
+        const [chaptersData, projectsData, partnersData] = await Promise.all([
           fetchNotionContent('members'),
-          fetchNotionContent('projects')
+          fetchNotionContent('projects'),
+          fetchNotionContent('partners')
         ]);
         return {
           chapterCollection: chaptersData.memberCollection,
-          pennWebsiteLayout: projectsData.pennWebsiteLayout
+          pennWebsiteLayout: projectsData.pennWebsiteLayout,
+          partnerCollection: partnersData.partnerCollection
         };
 
       default:

@@ -1,7 +1,6 @@
 import React from 'react';
 import Section from '../../section';
 import { Container, Row } from 'reactstrap';
-import ContentBlock from '../../ContentBlock';
 
 export default function ServicesDetail({ content, title }) {
   return (
@@ -12,7 +11,7 @@ export default function ServicesDetail({ content, title }) {
         </Row>
 
         <Row>
-          <ContentBlock content={content.json} />
+          <p>{content}</p>
         </Row>
       </Container>
     </Section>
