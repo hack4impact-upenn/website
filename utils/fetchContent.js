@@ -8,6 +8,8 @@ const notion = new Client({
 const space = process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID;
 const accessToken = process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN;
 
+const PLACEHOLDER_IMAGE = '/images/placeholder.webp';
+
 const safeExtract = (value, fallback = '') => {
   const result = extractPlainText(value || []);
   return result || fallback;
@@ -26,7 +28,7 @@ function formatMemberData(page) {
     name: safeExtract(properties.name?.title),
     title: properties.title?.select?.name || '',
     image: {
-      url: properties.image?.url || ''
+      url: properties.image?.url || PLACEHOLDER_IMAGE
     },
     linkedIn: properties.linkedIn?.url || properties.linkedin?.url || '',
     classOf: properties.class?.select?.name || '',
@@ -47,7 +49,7 @@ function formatProjectData(page) {
     team: properties.team?.people?.map(person => person.name || person.id).join(', ') || '',
     description: safeExtract(properties.description?.rich_text || []),
     thumbnail: {
-      url: properties.thumbnail?.url || '',
+      url: properties.thumbnail?.url || PLACEHOLDER_IMAGE,
       description: safeExtract(properties.thumbnailDescription?.rich_text) || ''
     },
     urlSlug: safeExtract(properties.urlSlug?.rich_text) || 
@@ -60,7 +62,7 @@ function formatPartnerData(page) {
   const properties = page.properties;
   return {
     name: safeExtract(properties.name?.title),
-    logoUrl: properties.logoUrl?.url || '',
+    logoUrl: properties.logoUrl?.url || PLACEHOLDER_IMAGE,
     link: properties.link?.url || '',
     tier: properties.tier?.select?.name || '',
     order: properties.order?.number ?? 0,
@@ -85,7 +87,7 @@ function formatTimelineStep(page) {
     header: safeExtract(properties.header?.rich_text || []),
     body: safeExtract(properties.bodyText?.rich_text || []),
     image: {
-      url: properties.imageUrl?.url || '',
+      url: properties.imageUrl?.url || PLACEHOLDER_IMAGE,
       description: safeExtract(properties.imageDescription?.rich_text || []),
     },
   };
@@ -148,7 +150,7 @@ export async function fetchProjectDetail(urlSlug) {
       title: safeExtract(properties.title?.title || properties.name?.title || []),
       description: safeExtract(properties.description?.rich_text || []),
       thumbnail: {
-        url: properties.thumbnail?.url || properties.thumbnail?.files?.[0]?.file?.url || '',
+        url: properties.thumbnail?.url || properties.thumbnail?.files?.[0]?.file?.url || PLACEHOLDER_IMAGE,
         description: safeExtract(properties.thumbnail_description?.rich_text || [])
       },
       finalProductLink: properties.final_product_link?.url || '',
@@ -169,13 +171,13 @@ export async function fetchProjectDetail(urlSlug) {
       pmtlCollection: {
         items: properties.pmtl?.people?.map(person => ({
           name: person.name || 'Team Member',
-          image: { url: person.avatar_url || '' },
+          image: { url: person.avatar_url || PLACEHOLDER_IMAGE },
         })) || []
       },
       teamMembersCollection: {
         items: properties.team?.people?.map(person => ({
           name: person.name || 'Team Member',
-          image: { url: person.avatar_url || '' },
+          image: { url: person.avatar_url || PLACEHOLDER_IMAGE },
         })) || []
       }
     };
@@ -278,7 +280,7 @@ export async function fetchMemberDetail(urlSlug) {
       name: safeExtract(properties.name?.title || []),
       title: properties.title?.select?.name || '',
       image: {
-        url: properties.image?.url || '',
+        url: properties.image?.url || PLACEHOLDER_IMAGE,
         description: safeExtract(properties.name?.title || []) + ' profile photo'
       },
       linkedIn: properties.linkedin?.url || '',

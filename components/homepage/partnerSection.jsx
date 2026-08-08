@@ -20,8 +20,9 @@ export default function PartnerSection({ partners }) {
             <h3 className="tier-label">{tier}</h3>
             <div className="sponsor-row">
               {tierPartners.map(({ name, logoUrl, link }) => (
-                <a href={link} key={name}>
+                <a href={link} key={name} className="sponsor-item">
                   <img width="150" src={logoUrl} className="partner-logos" alt={`${name} logo`} />
+                  <p className="sponsor-name">{name}</p>
                 </a>
               ))}
             </div>
@@ -68,6 +69,18 @@ export default function PartnerSection({ partners }) {
           flex-direction: row;
           justify-content: space-evenly;
           align-items: center;
+        }
+        .sponsor-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .sponsor-name {
+          margin: 8px 0 0;
+          font-size: 14px;
+          color: #373f46;
+          opacity: 0.7;
+          text-align: center;
         }
       `}</style>
     </Section>
