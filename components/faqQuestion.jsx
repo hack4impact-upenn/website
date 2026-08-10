@@ -1,5 +1,6 @@
 import React from 'react';
 import { Collapse } from 'reactstrap';
+import RichText from './richText';
 
 function FaqQuestion({ question, answer }) {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -14,7 +15,9 @@ function FaqQuestion({ question, answer }) {
         {/* eslint-enable */}
         <Collapse isOpen={isOpen}>
           <div className="answer">
-            <p>{answer}</p>
+            <p>
+              <RichText segments={answer} />
+            </p>
           </div>
         </Collapse>
       </div>
@@ -46,6 +49,9 @@ function FaqQuestion({ question, answer }) {
         .answer {
           margin: 0 10px;
           color: var(--gray);
+        }
+        .answer p {
+          white-space: pre-line;
         }
       `}</style>
     </>

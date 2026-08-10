@@ -1,4 +1,5 @@
 import { Client } from '@notionhq/client';
+import FALLBACK_APPLICATION_CONTENT from './fallbackApplicationContent';
 
 // Initialize the Notion client
 const notion = new Client({
@@ -19,6 +20,19 @@ const safeExtract = (value, fallback = '') => {
 function extractPlainText(richTextArray) {
   if (!richTextArray || !Array.isArray(richTextArray)) return '';
   return richTextArray.map((item) => item.plain_text || '').join('');
+}
+
+// Preserves per-segment formatting (bold, italic, etc.) that extractPlainText discards
+function extractRichTextSegments(richTextArray) {
+  if (!richTextArray || !Array.isArray(richTextArray)) return [];
+  return richTextArray.map((item) => ({
+    text: item.plain_text || '',
+    bold: item.annotations?.bold || false,
+    italic: item.annotations?.italic || false,
+    strikethrough: item.annotations?.strikethrough || false,
+    code: item.annotations?.code || false,
+    href: item.href || null,
+  }));
 }
 
 // Helper function to convert Notion page properties for members/chapters
@@ -90,7 +104,7 @@ function formatTimelineStep(page) {
   const properties = page.properties;
   return {
     header: safeExtract(properties.header?.rich_text || []),
-    body: safeExtract(properties.bodyText?.rich_text || []),
+    body: extractRichTextSegments(properties.bodyText?.rich_text || []),
     image: {
       url: properties.imageUrl?.url || PLACEHOLDER_IMAGE,
       description: safeExtract(properties.imageDescription?.rich_text || []),
@@ -110,7 +124,7 @@ function formatFaq(page) {
   const properties = page.properties;
   return {
     question: safeExtract(properties.question?.rich_text || []),
-    answer: safeExtract(properties.answer?.rich_text || []),
+    answer: extractRichTextSegments(properties.answer?.rich_text || []),
   };
 }
 
@@ -256,10 +270,13 @@ export async function fetchApplicationContent(applicationType) {
     );
   }
 
-  if (timelineResult.status === 'fulfilled') {
+  if (timelineResult.status === 'fulfilled' && timelineResult.value.results.length > 0) {
     empty.timelineCollection.items = timelineResult.value.results.map(formatTimelineStep);
   } else {
-    console.error(`Error fetching timeline for ${applicationType}:`, timelineResult.reason);
+    if (timelineResult.status === 'rejected') {
+      console.error(`Error fetching timeline for ${applicationType}:`, timelineResult.reason);
+    }
+    empty.timelineCollection.items = FALLBACK_APPLICATION_CONTENT[applicationType]?.timeline || [];
   }
 
   if (testimonialsResult.status === 'fulfilled') {
@@ -268,10 +285,13 @@ export async function fetchApplicationContent(applicationType) {
     console.error(`Error fetching testimonials for ${applicationType}:`, testimonialsResult.reason);
   }
 
-  if (faqsResult.status === 'fulfilled') {
+  if (faqsResult.status === 'fulfilled' && faqsResult.value.results.length > 0) {
     empty.faqsCollection.items = faqsResult.value.results.map(formatFaq);
   } else {
-    console.error(`Error fetching FAQs for ${applicationType}:`, faqsResult.reason);
+    if (faqsResult.status === 'rejected') {
+      console.error(`Error fetching FAQs for ${applicationType}:`, faqsResult.reason);
+    }
+    empty.faqsCollection.items = FALLBACK_APPLICATION_CONTENT[applicationType]?.faqs || [];
   }
 
   return empty;
