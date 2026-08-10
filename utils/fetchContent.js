@@ -18,7 +18,7 @@ const safeExtract = (value, fallback = '') => {
 // Helper function to extract plain text from Notion rich text
 function extractPlainText(richTextArray) {
   if (!richTextArray || !Array.isArray(richTextArray)) return '';
-  return richTextArray.map(item => item.plain_text || '').join('');
+  return richTextArray.map((item) => item.plain_text || '').join('');
 }
 
 // Helper function to convert Notion page properties for members/chapters
@@ -28,33 +28,38 @@ function formatMemberData(page) {
     name: safeExtract(properties.name?.title),
     title: properties.title?.select?.name || '',
     image: {
-      url: properties.image?.url || PLACEHOLDER_IMAGE
+      url: properties.image?.url || PLACEHOLDER_IMAGE,
     },
     linkedIn: properties.linkedIn?.url || properties.linkedin?.url || '',
     classOf: properties.class?.select?.name || '',
-    urlSlug: safeExtract(properties.urlSlug?.rich_text || properties.url_slug?.rich_text || []) ||
-             safeExtract(properties.name?.title || properties.Name?.title || []).toLowerCase().replace(/\s+/g, '-'),
+    urlSlug:
+      safeExtract(properties.urlSlug?.rich_text || properties.url_slug?.rich_text || []) ||
+      safeExtract(properties.name?.title || properties.Name?.title || [])
+        .toLowerCase()
+        .replace(/\s+/g, '-'),
     status: properties.status?.status?.name || '',
     email: properties.email?.email || '',
     joined: properties.joined?.select?.name || '',
-    bio: safeExtract(properties.bio?.rich_text || [])
+    bio: safeExtract(properties.bio?.rich_text || []),
   };
 }
 
 function formatProjectData(page) {
   const properties = page.properties;
-  
+
   return {
     title: safeExtract(properties.name?.title),
-    team: properties.team?.people?.map(person => person.name || person.id).join(', ') || '',
+    team: properties.team?.people?.map((person) => person.name || person.id).join(', ') || '',
     description: safeExtract(properties.description?.rich_text || []),
     thumbnail: {
       url: properties.thumbnail?.url || PLACEHOLDER_IMAGE,
-      description: safeExtract(properties.thumbnailDescription?.rich_text) || ''
+      description: safeExtract(properties.thumbnailDescription?.rich_text) || '',
     },
-    urlSlug: safeExtract(properties.urlSlug?.rich_text) || 
-             safeExtract(properties.name?.title).toLowerCase().replace(/\s+/g, '-') || '',
-    completedIn: properties.semester?.select?.name || 'Unknown'
+    urlSlug:
+      safeExtract(properties.urlSlug?.rich_text) ||
+      safeExtract(properties.name?.title).toLowerCase().replace(/\s+/g, '-') ||
+      '',
+    completedIn: properties.semester?.select?.name || 'Unknown',
   };
 }
 
@@ -71,7 +76,7 @@ function formatPartnerData(page) {
 
 function formatRichTextForContentBlock(richTextArray) {
   if (!richTextArray || !Array.isArray(richTextArray)) return '';
-  
+
   return safeExtract(richTextArray);
 }
 
@@ -112,18 +117,22 @@ function formatFaq(page) {
 // Helper function to parse comma-separated feature data
 function parseFeatureCollection(featureImagesText, featureDescriptionsText) {
   if (!featureImagesText) return [];
-  
-  const imageUrls = featureImagesText.split(',').map(url => url.trim()).filter(url => url);
-  const descriptions = featureDescriptionsText ? 
-    featureDescriptionsText.split(',').map(desc => desc.trim()) : [];
-  
+
+  const imageUrls = featureImagesText
+    .split(',')
+    .map((url) => url.trim())
+    .filter((url) => url);
+  const descriptions = featureDescriptionsText
+    ? featureDescriptionsText.split(',').map((desc) => desc.trim())
+    : [];
+
   return imageUrls.map((url, index) => ({
     header: `Feature ${index + 1}`,
     image: {
       url: url,
-      description: descriptions[index] || `Feature ${index + 1} screenshot`
+      description: descriptions[index] || `Feature ${index + 1} screenshot`,
     },
-    body: descriptions[index] || `Description for feature ${index + 1}` // ← Return plain text, not wrapped in json
+    body: descriptions[index] || `Description for feature ${index + 1}`, // ← Return plain text, not wrapped in json
   }));
 }
 
@@ -134,11 +143,11 @@ export async function fetchProjectDetail(urlSlug) {
       filter: {
         property: 'urlSlug',
         rich_text: {
-          equals: urlSlug
-        }
-      }
+          equals: urlSlug,
+        },
+      },
     });
-    
+
     if (!projectResponse.results.length) {
       return null;
     }
@@ -150,36 +159,44 @@ export async function fetchProjectDetail(urlSlug) {
       title: safeExtract(properties.title?.title || properties.name?.title || []),
       description: safeExtract(properties.description?.rich_text || []),
       thumbnail: {
-        url: properties.thumbnail?.url || properties.thumbnail?.files?.[0]?.file?.url || PLACEHOLDER_IMAGE,
-        description: safeExtract(properties.thumbnail_description?.rich_text || [])
+        url:
+          properties.thumbnail?.url ||
+          properties.thumbnail?.files?.[0]?.file?.url ||
+          PLACEHOLDER_IMAGE,
+        description: safeExtract(properties.thumbnail_description?.rich_text || []),
       },
       finalProductLink: properties.final_product_link?.url || '',
       codeRepoLink: properties.code_repo_link?.url || '',
-      technologiesUsed: properties.technologies_used?.multi_select?.map(tech => tech.name).join(', ') || '',
+      technologiesUsed:
+        properties.technologies_used?.multi_select?.map((tech) => tech.name).join(', ') || '',
       project: formatRichTextForContentBlock(properties.about_project?.rich_text || []),
-      client: formatRichTextForContentBlock(properties.client?.rich_text || [{ plain_text: properties.client?.url || '' }]),
+      client: formatRichTextForContentBlock(
+        properties.client?.rich_text || [{ plain_text: properties.client?.url || '' }],
+      ),
       impact: formatRichTextForContentBlock(properties.impact?.rich_text),
       featuresCollection: {
         items: parseFeatureCollection(
           safeExtract(properties.feature_images?.rich_text || []),
-          safeExtract(properties.feature_descriptions?.rich_text || [])
-        )
+          safeExtract(properties.feature_descriptions?.rich_text || []),
+        ),
       },
       testimonialsCollection: {
-        items: [] 
+        items: [],
       },
       pmtlCollection: {
-        items: properties.pmtl?.people?.map(person => ({
-          name: person.name || 'Team Member',
-          image: { url: person.avatar_url || PLACEHOLDER_IMAGE },
-        })) || []
+        items:
+          properties.pmtl?.people?.map((person) => ({
+            name: person.name || 'Team Member',
+            image: { url: person.avatar_url || PLACEHOLDER_IMAGE },
+          })) || [],
       },
       teamMembersCollection: {
-        items: properties.team?.people?.map(person => ({
-          name: person.name || 'Team Member',
-          image: { url: person.avatar_url || PLACEHOLDER_IMAGE },
-        })) || []
-      }
+        items:
+          properties.team?.people?.map((person) => ({
+            name: person.name || 'Team Member',
+            image: { url: person.avatar_url || PLACEHOLDER_IMAGE },
+          })) || [],
+      },
     };
 
     return formattedProject;
@@ -202,28 +219,29 @@ export async function fetchApplicationContent(applicationType) {
     faqsCollection: { items: [] },
   };
 
-  const [applicationResult, timelineResult, testimonialsResult, faqsResult] = await Promise.allSettled([
-    notion.databases.query({ database_id: process.env.NOTION_APPLICATIONS_DATABASE_ID }),
-    notion.databases.query({
-      database_id: process.env.NOTION_TIMELINE_DATABASE_ID,
-      filter: { property: 'applicationType', select: { equals: applicationType } },
-      sorts: [{ property: 'order', direction: 'ascending' }],
-    }),
-    notion.databases.query({
-      database_id: process.env.NOTION_TESTIMONIALS_DATABASE_ID,
-      filter: { property: 'applicationType', select: { equals: applicationType } },
-      sorts: [{ property: 'order', direction: 'ascending' }],
-    }),
-    notion.databases.query({
-      database_id: process.env.NOTION_FAQS_DATABASE_ID,
-      filter: { property: 'applicationType', select: { equals: applicationType } },
-      sorts: [{ property: 'order', direction: 'ascending' }],
-    }),
-  ]);
+  const [applicationResult, timelineResult, testimonialsResult, faqsResult] =
+    await Promise.allSettled([
+      notion.databases.query({ database_id: process.env.NOTION_APPLICATIONS_DATABASE_ID }),
+      notion.databases.query({
+        database_id: process.env.NOTION_TIMELINE_DATABASE_ID,
+        filter: { property: 'applicationType', select: { equals: applicationType } },
+        sorts: [{ property: 'order', direction: 'ascending' }],
+      }),
+      notion.databases.query({
+        database_id: process.env.NOTION_TESTIMONIALS_DATABASE_ID,
+        filter: { property: 'applicationType', select: { equals: applicationType } },
+        sorts: [{ property: 'order', direction: 'ascending' }],
+      }),
+      notion.databases.query({
+        database_id: process.env.NOTION_FAQS_DATABASE_ID,
+        filter: { property: 'applicationType', select: { equals: applicationType } },
+        sorts: [{ property: 'order', direction: 'ascending' }],
+      }),
+    ]);
 
   if (applicationResult.status === 'fulfilled') {
     const appPage = applicationResult.value.results.find(
-      (page) => getTitleText(page.properties) === applicationType
+      (page) => getTitleText(page.properties) === applicationType,
     );
     if (appPage) {
       const properties = appPage.properties;
@@ -232,7 +250,10 @@ export async function fetchApplicationContent(applicationType) {
       empty.description = safeExtract(properties.description?.rich_text || []);
     }
   } else {
-    console.error(`Error fetching application info for ${applicationType}:`, applicationResult.reason);
+    console.error(
+      `Error fetching application info for ${applicationType}:`,
+      applicationResult.reason,
+    );
   }
 
   if (timelineResult.status === 'fulfilled') {
@@ -263,31 +284,31 @@ export async function fetchMemberDetail(urlSlug) {
       filter: {
         property: 'urlSlug',
         rich_text: {
-          equals: urlSlug
-        }
-      }
+          equals: urlSlug,
+        },
+      },
     });
-    
+
     if (!memberResponse.results.length) {
       return null;
     }
 
     const memberData = memberResponse.results[0];
     const properties = memberData.properties;
-    
+
     // Format the data for the member detail page
     const formattedMember = {
       name: safeExtract(properties.name?.title || []),
       title: properties.title?.select?.name || '',
       image: {
         url: properties.image?.url || PLACEHOLDER_IMAGE,
-        description: safeExtract(properties.name?.title || []) + ' profile photo'
+        description: safeExtract(properties.name?.title || []) + ' profile photo',
       },
       linkedIn: properties.linkedin?.url || '',
       bio: safeExtract(properties.bio?.rich_text || []),
       classOf: properties.class?.select?.name || '',
       email: properties.email?.email || '',
-      github: properties.github?.url || ''
+      github: properties.github?.url || '',
     };
 
     return formattedMember;
@@ -308,8 +329,8 @@ export async function fetchNotionContent(type, options = {}) {
         });
         return {
           memberCollection: {
-            items: memberResponse.results.map(formatMemberData)
-          }
+            items: memberResponse.results.map(formatMemberData),
+          },
         };
 
       case 'projects':
@@ -318,15 +339,15 @@ export async function fetchNotionContent(type, options = {}) {
           sort: {
             property: 'completion',
             direction: 'descending',
-          }
+          },
         });
 
         return {
           pennWebsiteLayout: {
             projectsCollection: {
-              items: projectResponse.results.map(formatProjectData)
-            }
-          }
+              items: projectResponse.results.map(formatProjectData),
+            },
+          },
         };
 
       case 'partners':
@@ -335,8 +356,8 @@ export async function fetchNotionContent(type, options = {}) {
         });
         return {
           partnerCollection: {
-            items: partnerResponse.results.map(formatPartnerData)
-          }
+            items: partnerResponse.results.map(formatPartnerData),
+          },
         };
 
       case 'homepage':
@@ -344,12 +365,12 @@ export async function fetchNotionContent(type, options = {}) {
         const [chaptersData, projectsData, partnersData] = await Promise.all([
           fetchNotionContent('members'),
           fetchNotionContent('projects'),
-          fetchNotionContent('partners')
+          fetchNotionContent('partners'),
         ]);
         return {
           chapterCollection: chaptersData.memberCollection,
           pennWebsiteLayout: projectsData.pennWebsiteLayout,
-          partnerCollection: partnersData.partnerCollection
+          partnerCollection: partnersData.partnerCollection,
         };
 
       default:
@@ -360,7 +381,7 @@ export async function fetchNotionContent(type, options = {}) {
       message: error.message,
       code: error.code,
       status: error.status,
-      stack: error.stack
+      stack: error.stack,
     });
     throw error;
   }

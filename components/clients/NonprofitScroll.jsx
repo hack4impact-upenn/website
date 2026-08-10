@@ -79,7 +79,8 @@ const NonprofitScroll = () => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                }}>
+                }}
+              >
                 <img
                   src="/images/banner_sample.svg"
                   alt="Banner Sample"
@@ -120,7 +121,8 @@ const NonprofitScroll = () => {
           opacity: page2Opacity,
           visibility: page2Opacity > 0.1 ? 'visible' : 'hidden',
           pointerEvents: page2Opacity > 0.5 ? 'auto' : 'none', // Only allow interaction when mostly visible
-        }}>
+        }}
+      >
         <Container fluid>
           <div className="support-section">
             <Row className="align-items-center">
@@ -138,7 +140,8 @@ const NonprofitScroll = () => {
                 <div className="mt-4">
                   <button
                     className="btn btn-link text-muted"
-                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                  >
                     <span className="mr-2">↑</span> Back to top
                   </button>
                 </div>
