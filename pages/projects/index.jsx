@@ -50,7 +50,6 @@ export async function getStaticProps() {
       props: {
         projects: projectsCollection.items,
       },
-      revalidate: 60,
     };
   } catch (error) {
     console.error('Error fetching projects from Notion:', error);
@@ -58,7 +57,6 @@ export async function getStaticProps() {
       props: {
         projects: [],
       },
-      revalidate: 60,
     };
   }
 }

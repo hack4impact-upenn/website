@@ -6,7 +6,7 @@ import Quote from '../../components/quote';
 import ApplicationProcess from '../../components/apply/applicationProcess';
 import Head from '../../components/head';
 import ActionButton from '../../components/actionButton';
-import { fetchContent } from '../../utils/fetchContent';
+import { fetchApplicationContent } from '../../utils/fetchContent';
 
 function NonProfits({
   applicationLink,
@@ -44,49 +44,7 @@ function NonProfits({
 export default NonProfits;
 
 export async function getStaticProps() {
-  const {
-    pennWebsiteLayout: { nonprofitApplication },
-  } = await fetchContent(`
-  {
-    pennWebsiteLayout(id: "${process.env.LAYOUT_ENTRY_ID}") {
-      nonprofitApplication {
-        applicationLink
-        openRolesLink
-        description {
-          json
-        }
-        timelineCollection {
-          items {
-            header
-            body {
-              json
-            }
-            image {
-              url
-              description
-            }
-          }
-        }
-        testimonialsCollection {
-          items {
-            author
-            quote {
-              json
-            }
-          }
-        }
-        faqsCollection {
-          items {
-            question
-            answer {
-              json
-            }
-          }
-        }
-      }
-    }
-  }
-  `);
+  const nonprofitApplication = await fetchApplicationContent('Organizations');
 
   return {
     props: nonprofitApplication,

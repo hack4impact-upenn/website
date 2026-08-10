@@ -1,4 +1,5 @@
 import { Client } from '@notionhq/client';
+import FALLBACK_APPLICATION_CONTENT from './fallbackApplicationContent';
 
 // Initialize the Notion client
 const notion = new Client({
@@ -8,6 +9,8 @@ const notion = new Client({
 const space = process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID;
 const accessToken = process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN;
 
+const PLACEHOLDER_IMAGE = '/images/placeholder.webp';
+
 const safeExtract = (value, fallback = '') => {
   const result = extractPlainText(value || []);
   return result || fallback;
@@ -16,7 +19,20 @@ const safeExtract = (value, fallback = '') => {
 // Helper function to extract plain text from Notion rich text
 function extractPlainText(richTextArray) {
   if (!richTextArray || !Array.isArray(richTextArray)) return '';
-  return richTextArray.map(item => item.plain_text || '').join('');
+  return richTextArray.map((item) => item.plain_text || '').join('');
+}
+
+// Preserves per-segment formatting (bold, italic, etc.) that extractPlainText discards
+function extractRichTextSegments(richTextArray) {
+  if (!richTextArray || !Array.isArray(richTextArray)) return [];
+  return richTextArray.map((item) => ({
+    text: item.plain_text || '',
+    bold: item.annotations?.bold || false,
+    italic: item.annotations?.italic || false,
+    strikethrough: item.annotations?.strikethrough || false,
+    code: item.annotations?.code || false,
+    href: item.href || null,
+  }));
 }
 
 // Helper function to convert Notion page properties for members/chapters
@@ -24,59 +40,113 @@ function formatMemberData(page) {
   const properties = page.properties;
   return {
     name: safeExtract(properties.name?.title),
-    title: properties.title?.select?.name,
+    title: properties.title?.select?.name || '',
     image: {
-      url: properties.image?.url || ''
+      url: properties.image?.url || PLACEHOLDER_IMAGE,
     },
     linkedIn: properties.linkedIn?.url || properties.linkedin?.url || '',
     classOf: properties.class?.select?.name || '',
-    urlSlug: safeExtract(properties.urlSlug?.rich_text || properties.url_slug?.rich_text || []) ||
-             safeExtract(properties.name?.title || properties.Name?.title || []).toLowerCase().replace(/\s+/g, '-'),
+    urlSlug:
+      safeExtract(properties.urlSlug?.rich_text || properties.url_slug?.rich_text || []) ||
+      safeExtract(properties.name?.title || properties.Name?.title || [])
+        .toLowerCase()
+        .replace(/\s+/g, '-'),
     status: properties.status?.status?.name || '',
     email: properties.email?.email || '',
     joined: properties.joined?.select?.name || '',
-    bio: safeExtract(properties.bio?.rich_text || [])
+    bio: safeExtract(properties.bio?.rich_text || []),
   };
 }
 
 function formatProjectData(page) {
   const properties = page.properties;
-  
+
   return {
     title: safeExtract(properties.name?.title),
-    team: properties.team?.people?.map(person => person.name || person.id).join(', ') || '',
+    team: properties.team?.people?.map((person) => person.name || person.id).join(', ') || '',
     description: safeExtract(properties.description?.rich_text || []),
     thumbnail: {
-      url: properties.thumbnail?.url || '',
-      description: safeExtract(properties.thumbnailDescription?.rich_text) || ''
+      url: properties.thumbnail?.url || PLACEHOLDER_IMAGE,
+      description: safeExtract(properties.thumbnailDescription?.rich_text) || '',
     },
-    urlSlug: safeExtract(properties.urlSlug?.rich_text) || 
-             safeExtract(properties.name?.title).toLowerCase().replace(/\s+/g, '-') || '',
-    completedIn: properties.semester?.select?.name || 'Unknown'
+    urlSlug:
+      safeExtract(properties.urlSlug?.rich_text) ||
+      safeExtract(properties.name?.title).toLowerCase().replace(/\s+/g, '-') ||
+      '',
+    completedIn: properties.semester?.select?.name || 'Unknown',
+  };
+}
+
+function formatPartnerData(page) {
+  const properties = page.properties;
+  return {
+    name: safeExtract(properties.name?.title),
+    logoUrl: properties.logoUrl?.url || PLACEHOLDER_IMAGE,
+    link: properties.link?.url || '',
+    tier: properties.tier?.select?.name || '',
+    order: properties.order?.number ?? 0,
   };
 }
 
 function formatRichTextForContentBlock(richTextArray) {
   if (!richTextArray || !Array.isArray(richTextArray)) return '';
-  
+
   return safeExtract(richTextArray);
+}
+
+// Helper function to read a database row's title property regardless of its column name
+function getTitleText(properties) {
+  const titleProp = Object.values(properties).find((prop) => prop.type === 'title');
+  return safeExtract(titleProp?.title || []);
+}
+
+function formatTimelineStep(page) {
+  const properties = page.properties;
+  return {
+    header: safeExtract(properties.header?.rich_text || []),
+    body: extractRichTextSegments(properties.bodyText?.rich_text || []),
+    image: {
+      url: properties.imageUrl?.url || PLACEHOLDER_IMAGE,
+      description: safeExtract(properties.imageDescription?.rich_text || []),
+    },
+  };
+}
+
+function formatTestimonial(page) {
+  const properties = page.properties;
+  return {
+    author: safeExtract(properties.author?.rich_text || []),
+    quote: safeExtract(properties.quote?.rich_text || []),
+  };
+}
+
+function formatFaq(page) {
+  const properties = page.properties;
+  return {
+    question: safeExtract(properties.question?.rich_text || []),
+    answer: extractRichTextSegments(properties.answer?.rich_text || []),
+  };
 }
 
 // Helper function to parse comma-separated feature data
 function parseFeatureCollection(featureImagesText, featureDescriptionsText) {
   if (!featureImagesText) return [];
-  
-  const imageUrls = featureImagesText.split(',').map(url => url.trim()).filter(url => url);
-  const descriptions = featureDescriptionsText ? 
-    featureDescriptionsText.split(',').map(desc => desc.trim()) : [];
-  
+
+  const imageUrls = featureImagesText
+    .split(',')
+    .map((url) => url.trim())
+    .filter((url) => url);
+  const descriptions = featureDescriptionsText
+    ? featureDescriptionsText.split(',').map((desc) => desc.trim())
+    : [];
+
   return imageUrls.map((url, index) => ({
     header: `Feature ${index + 1}`,
     image: {
       url: url,
-      description: descriptions[index] || `Feature ${index + 1} screenshot`
+      description: descriptions[index] || `Feature ${index + 1} screenshot`,
     },
-    body: descriptions[index] || `Description for feature ${index + 1}` // ← Return plain text, not wrapped in json
+    body: descriptions[index] || `Description for feature ${index + 1}`, // ← Return plain text, not wrapped in json
   }));
 }
 
@@ -87,11 +157,11 @@ export async function fetchProjectDetail(urlSlug) {
       filter: {
         property: 'urlSlug',
         rich_text: {
-          equals: urlSlug
-        }
-      }
+          equals: urlSlug,
+        },
+      },
     });
-    
+
     if (!projectResponse.results.length) {
       return null;
     }
@@ -103,36 +173,44 @@ export async function fetchProjectDetail(urlSlug) {
       title: safeExtract(properties.title?.title || properties.name?.title || []),
       description: safeExtract(properties.description?.rich_text || []),
       thumbnail: {
-        url: properties.thumbnail?.url || properties.thumbnail?.files?.[0]?.file?.url || '',
-        description: safeExtract(properties.thumbnail_description?.rich_text || [])
+        url:
+          properties.thumbnail?.url ||
+          properties.thumbnail?.files?.[0]?.file?.url ||
+          PLACEHOLDER_IMAGE,
+        description: safeExtract(properties.thumbnail_description?.rich_text || []),
       },
       finalProductLink: properties.final_product_link?.url || '',
       codeRepoLink: properties.code_repo_link?.url || '',
-      technologiesUsed: properties.technologies_used?.multi_select?.map(tech => tech.name).join(', ') || '',
+      technologiesUsed:
+        properties.technologies_used?.multi_select?.map((tech) => tech.name).join(', ') || '',
       project: formatRichTextForContentBlock(properties.about_project?.rich_text || []),
-      client: formatRichTextForContentBlock(properties.client?.rich_text || [{ plain_text: properties.client?.url || '' }]),
+      client: formatRichTextForContentBlock(
+        properties.client?.rich_text || [{ plain_text: properties.client?.url || '' }],
+      ),
       impact: formatRichTextForContentBlock(properties.impact?.rich_text),
       featuresCollection: {
         items: parseFeatureCollection(
           safeExtract(properties.feature_images?.rich_text || []),
-          safeExtract(properties.feature_descriptions?.rich_text || [])
-        )
+          safeExtract(properties.feature_descriptions?.rich_text || []),
+        ),
       },
       testimonialsCollection: {
-        items: [] 
+        items: [],
       },
       pmtlCollection: {
-        items: properties.pmtl?.people?.map(person => ({
-          name: person.name || 'Team Member',
-          image: { url: person.avatar_url || '' },
-        })) || []
+        items:
+          properties.pmtl?.people?.map((person) => ({
+            name: person.name || 'Team Member',
+            image: { url: person.avatar_url || PLACEHOLDER_IMAGE },
+          })) || [],
       },
       teamMembersCollection: {
-        items: properties.team?.people?.map(person => ({
-          name: person.name || 'Team Member',
-          image: { url: person.avatar_url || '' },
-        })) || []
-      }
+        items:
+          properties.team?.people?.map((person) => ({
+            name: person.name || 'Team Member',
+            image: { url: person.avatar_url || PLACEHOLDER_IMAGE },
+          })) || [],
+      },
     };
 
     return formattedProject;
@@ -142,6 +220,92 @@ export async function fetchProjectDetail(urlSlug) {
   }
 }
 
+// applicationType is either 'Students' or 'Organizations', matching the title
+// values in the Applications database and the applicationType select options
+// in the Timeline/Testimonials/FAQs databases.
+export async function fetchApplicationContent(applicationType) {
+  const empty = {
+    applicationLink: '',
+    openRolesLink: '',
+    description: '',
+    timelineCollection: { items: [] },
+    testimonialsCollection: { items: [] },
+    faqsCollection: { items: [] },
+  };
+
+  const [applicationResult, timelineResult, testimonialsResult, faqsResult] =
+    await Promise.allSettled([
+      notion.databases.query({ database_id: process.env.NOTION_APPLICATIONS_DATABASE_ID }),
+      notion.databases.query({
+        database_id: process.env.NOTION_TIMELINE_DATABASE_ID,
+        filter: { property: 'applicationType', select: { equals: applicationType } },
+        sorts: [{ property: 'order', direction: 'ascending' }],
+      }),
+      notion.databases.query({
+        database_id: process.env.NOTION_TESTIMONIALS_DATABASE_ID,
+        filter: { property: 'applicationType', select: { equals: applicationType } },
+        sorts: [{ property: 'order', direction: 'ascending' }],
+      }),
+      notion.databases.query({
+        database_id: process.env.NOTION_FAQS_DATABASE_ID,
+        filter: { property: 'applicationType', select: { equals: applicationType } },
+        sorts: [{ property: 'order', direction: 'ascending' }],
+      }),
+    ]);
+
+  const appPage =
+    applicationResult.status === 'fulfilled' &&
+    applicationResult.value.results.find(
+      (page) => getTitleText(page.properties) === applicationType,
+    );
+
+  if (appPage) {
+    const properties = appPage.properties;
+    empty.applicationLink = properties.applicationLink?.url || '';
+    empty.openRolesLink = properties.openRolesLink?.url || '';
+    empty.description = safeExtract(properties.description?.rich_text || []);
+  } else {
+    if (applicationResult.status === 'rejected') {
+      console.error(
+        `Error fetching application info for ${applicationType}:`,
+        applicationResult.reason,
+      );
+    }
+    const fallback = FALLBACK_APPLICATION_CONTENT[applicationType]?.application;
+    if (fallback) {
+      empty.applicationLink = fallback.applicationLink;
+      empty.openRolesLink = fallback.openRolesLink;
+      empty.description = fallback.description;
+    }
+  }
+
+  if (timelineResult.status === 'fulfilled' && timelineResult.value.results.length > 0) {
+    empty.timelineCollection.items = timelineResult.value.results.map(formatTimelineStep);
+  } else {
+    if (timelineResult.status === 'rejected') {
+      console.error(`Error fetching timeline for ${applicationType}:`, timelineResult.reason);
+    }
+    empty.timelineCollection.items = FALLBACK_APPLICATION_CONTENT[applicationType]?.timeline || [];
+  }
+
+  if (testimonialsResult.status === 'fulfilled') {
+    empty.testimonialsCollection.items = testimonialsResult.value.results.map(formatTestimonial);
+  } else {
+    console.error(`Error fetching testimonials for ${applicationType}:`, testimonialsResult.reason);
+  }
+
+  if (faqsResult.status === 'fulfilled' && faqsResult.value.results.length > 0) {
+    empty.faqsCollection.items = faqsResult.value.results.map(formatFaq);
+  } else {
+    if (faqsResult.status === 'rejected') {
+      console.error(`Error fetching FAQs for ${applicationType}:`, faqsResult.reason);
+    }
+    empty.faqsCollection.items = FALLBACK_APPLICATION_CONTENT[applicationType]?.faqs || [];
+  }
+
+  return empty;
+}
+
 export async function fetchMemberDetail(urlSlug) {
   try {
     const memberResponse = await notion.databases.query({
@@ -149,31 +313,31 @@ export async function fetchMemberDetail(urlSlug) {
       filter: {
         property: 'urlSlug',
         rich_text: {
-          equals: urlSlug
-        }
-      }
+          equals: urlSlug,
+        },
+      },
     });
-    
+
     if (!memberResponse.results.length) {
       return null;
     }
 
     const memberData = memberResponse.results[0];
     const properties = memberData.properties;
-    
+
     // Format the data for the member detail page
     const formattedMember = {
       name: safeExtract(properties.name?.title || []),
       title: properties.title?.select?.name || '',
       image: {
-        url: properties.image?.url || '',
-        description: safeExtract(properties.name?.title || []) + ' profile photo'
+        url: properties.image?.url || PLACEHOLDER_IMAGE,
+        description: safeExtract(properties.name?.title || []) + ' profile photo',
       },
       linkedIn: properties.linkedin?.url || '',
       bio: safeExtract(properties.bio?.rich_text || []),
       classOf: properties.class?.select?.name || '',
       email: properties.email?.email || '',
-      github: properties.github?.url || ''
+      github: properties.github?.url || '',
     };
 
     return formattedMember;
@@ -194,8 +358,8 @@ export async function fetchNotionContent(type, options = {}) {
         });
         return {
           memberCollection: {
-            items: memberResponse.results.map(formatMemberData)
-          }
+            items: memberResponse.results.map(formatMemberData),
+          },
         };
 
       case 'projects':
@@ -204,26 +368,57 @@ export async function fetchNotionContent(type, options = {}) {
           sort: {
             property: 'completion',
             direction: 'descending',
-          }
+          },
         });
 
         return {
           pennWebsiteLayout: {
             projectsCollection: {
-              items: projectResponse.results.map(formatProjectData)
-            }
-          }
+              items: projectResponse.results.map(formatProjectData),
+            },
+          },
+        };
+
+      case 'partners':
+        const partnerResponse = await notion.databases.query({
+          database_id: process.env.NOTION_PARTNERS_DATABASE_ID,
+        });
+        return {
+          partnerCollection: {
+            items: partnerResponse.results.map(formatPartnerData),
+          },
         };
 
       case 'homepage':
-        // Fetch both chapters and projects for homepage
-        const [chaptersData, projectsData] = await Promise.all([
+        // Fetch chapters, projects, and partners for homepage.
+        // allSettled so one failing (e.g. partners not configured) can't blank out the other two.
+        const [chaptersResult, projectsResult, partnersResult] = await Promise.allSettled([
           fetchNotionContent('members'),
-          fetchNotionContent('projects')
+          fetchNotionContent('projects'),
+          fetchNotionContent('partners'),
         ]);
+        if (chaptersResult.status === 'rejected') {
+          console.error('Error fetching members for homepage:', chaptersResult.reason);
+        }
+        if (projectsResult.status === 'rejected') {
+          console.error('Error fetching projects for homepage:', projectsResult.reason);
+        }
+        if (partnersResult.status === 'rejected') {
+          console.error('Error fetching partners for homepage:', partnersResult.reason);
+        }
         return {
-          chapterCollection: chaptersData.memberCollection,
-          pennWebsiteLayout: projectsData.pennWebsiteLayout
+          chapterCollection:
+            chaptersResult.status === 'fulfilled'
+              ? chaptersResult.value.memberCollection
+              : { items: [] },
+          pennWebsiteLayout:
+            projectsResult.status === 'fulfilled'
+              ? projectsResult.value.pennWebsiteLayout
+              : { projectsCollection: { items: [] } },
+          partnerCollection:
+            partnersResult.status === 'fulfilled'
+              ? partnersResult.value.partnerCollection
+              : { items: [] },
         };
 
       default:
@@ -234,7 +429,7 @@ export async function fetchNotionContent(type, options = {}) {
       message: error.message,
       code: error.code,
       status: error.status,
-      stack: error.stack
+      stack: error.stack,
     });
     throw error;
   }
@@ -244,7 +439,7 @@ export async function fetchNotionContent(type, options = {}) {
 export async function fetchContent(query) {
   try {
     const res = await fetch(
-      `https://graphql.contentful.com/content/v1/spaces/${space}/environments/master`,
+      `https://graphql.contentful.com/content/v1/spaces/${space}/environments/main`,
       {
         method: 'POST',
         headers: {

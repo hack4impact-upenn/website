@@ -3,7 +3,6 @@ import React from 'react';
 import QuoteSection from './quoteSection';
 
 import { Container, Row, Col } from 'reactstrap';
-import ContentBlock from './ContentBlock';
 
 const Quote = ({ quote, source, sourceTitle }) => (
   <QuoteSection grey>
@@ -12,7 +11,7 @@ const Quote = ({ quote, source, sourceTitle }) => (
         <Col md="12">
           <blockquote className="blockquote">
             <div className="project-body-quote">
-              <ContentBlock content={quote.json} />
+              <p>{quote}</p>
             </div>
             <footer className="blockquote-footer">
               {source}
