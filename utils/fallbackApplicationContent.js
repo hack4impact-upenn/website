@@ -1,8 +1,14 @@
-// Snapshot of Notion Timeline/FAQ content as of 2026-08-10, used only when the live Notion fetch fails or returns no entries for that applicationType.
+// Snapshot of Notion Timeline/FAQ/Applications content as of 2026-08-10, used only when the live Notion fetch fails or returns no entries for that applicationType.
 // This is a fallback, not a source of truth — update Notion first; re-sync this file only if it drifts noticeably out of date.
 
 const FALLBACK_APPLICATION_CONTENT = {
   Students: {
+    application: {
+      applicationLink: '',
+      openRolesLink: '',
+      description:
+        'If you have programming experience at or above the level of an introductory level computer science class (such as CIS 1100 or AP Computer Science), and you want to apply your classroom knowledge to the real world — making a concrete improvement in people’s lives — then Hack4Impact is the club for you.\n\nWe place a strong emphasis on peer mentorship and learning, so we’ll teach you everything you need to know about designing and building web applications. No experience beyond programming fundamentals is required to join Hack4Impact.\n\nAs part of the team, you will learn how to identify user needs in order to design and build a working product. You’ll have a chance to experiment with and build new technologies.',
+    },
     timeline: [
       {
         header: 'Info Sessions',
@@ -272,6 +278,13 @@ const FALLBACK_APPLICATION_CONTENT = {
     ],
   },
   Organizations: {
+    application: {
+      applicationLink:
+        'https://docs.google.com/forms/d/1kSSmmI2ksisl-DlRPDFrTh5M90xVUcaOpNMBxdilhqk/viewform?edit_requested=true',
+      openRolesLink: '',
+      description:
+        '\nThat’s awesome! We’d love to talk with you, so please email penn@hack4impact.org and we’ll get back to you as soon as we can.\nWe want to help maximize your nonprofit’s impact, and we’re serious about project quality. We’ll communicate frequently and work with you closely to ensure we’re building exactly what you need.\nWe generally charge $1,000 per project. Our pricing is need-based, and if your organization is not able to afford the cost, we will be happy to lower or even waive the fee. All client contributions feed right back into Hack4Impact to pay for professional development events, speakers, organization retreats, and operating costs.',
+    },
     timeline: [
       {
         header: 'Brainstorming',

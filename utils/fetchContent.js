@@ -253,21 +253,30 @@ export async function fetchApplicationContent(applicationType) {
       }),
     ]);
 
-  if (applicationResult.status === 'fulfilled') {
-    const appPage = applicationResult.value.results.find(
+  const appPage =
+    applicationResult.status === 'fulfilled' &&
+    applicationResult.value.results.find(
       (page) => getTitleText(page.properties) === applicationType,
     );
-    if (appPage) {
-      const properties = appPage.properties;
-      empty.applicationLink = properties.applicationLink?.url || '';
-      empty.openRolesLink = properties.openRolesLink?.url || '';
-      empty.description = safeExtract(properties.description?.rich_text || []);
-    }
+
+  if (appPage) {
+    const properties = appPage.properties;
+    empty.applicationLink = properties.applicationLink?.url || '';
+    empty.openRolesLink = properties.openRolesLink?.url || '';
+    empty.description = safeExtract(properties.description?.rich_text || []);
   } else {
-    console.error(
-      `Error fetching application info for ${applicationType}:`,
-      applicationResult.reason,
-    );
+    if (applicationResult.status === 'rejected') {
+      console.error(
+        `Error fetching application info for ${applicationType}:`,
+        applicationResult.reason,
+      );
+    }
+    const fallback = FALLBACK_APPLICATION_CONTENT[applicationType]?.application;
+    if (fallback) {
+      empty.applicationLink = fallback.applicationLink;
+      empty.openRolesLink = fallback.openRolesLink;
+      empty.description = fallback.description;
+    }
   }
 
   if (timelineResult.status === 'fulfilled' && timelineResult.value.results.length > 0) {
