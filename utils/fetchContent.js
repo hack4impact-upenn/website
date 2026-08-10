@@ -390,16 +390,35 @@ export async function fetchNotionContent(type, options = {}) {
         };
 
       case 'homepage':
-        // Fetch chapters, projects, and partners for homepage
-        const [chaptersData, projectsData, partnersData] = await Promise.all([
+        // Fetch chapters, projects, and partners for homepage.
+        // allSettled so one failing (e.g. partners not configured) can't blank out the other two.
+        const [chaptersResult, projectsResult, partnersResult] = await Promise.allSettled([
           fetchNotionContent('members'),
           fetchNotionContent('projects'),
           fetchNotionContent('partners'),
         ]);
+        if (chaptersResult.status === 'rejected') {
+          console.error('Error fetching members for homepage:', chaptersResult.reason);
+        }
+        if (projectsResult.status === 'rejected') {
+          console.error('Error fetching projects for homepage:', projectsResult.reason);
+        }
+        if (partnersResult.status === 'rejected') {
+          console.error('Error fetching partners for homepage:', partnersResult.reason);
+        }
         return {
-          chapterCollection: chaptersData.memberCollection,
-          pennWebsiteLayout: projectsData.pennWebsiteLayout,
-          partnerCollection: partnersData.partnerCollection,
+          chapterCollection:
+            chaptersResult.status === 'fulfilled'
+              ? chaptersResult.value.memberCollection
+              : { items: [] },
+          pennWebsiteLayout:
+            projectsResult.status === 'fulfilled'
+              ? projectsResult.value.pennWebsiteLayout
+              : { projectsCollection: { items: [] } },
+          partnerCollection:
+            partnersResult.status === 'fulfilled'
+              ? partnersResult.value.partnerCollection
+              : { items: [] },
         };
 
       default:
