@@ -155,11 +155,13 @@ export async function getStaticProps({ params: { projectSlug } }) {
 
   return {
       props: formattedProject,
+      revalidate: 60,
     };
   } catch (error) {
     console.error('Error fetching project detail:', error);
     return {
       notFound: true,
+      revalidate: 60,
   };
   }
 }

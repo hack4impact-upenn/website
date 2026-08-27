@@ -62,5 +62,6 @@ export async function getStaticProps() {
       previewProjects,
       partners,
     },
+    revalidate: 60,
   };
 }

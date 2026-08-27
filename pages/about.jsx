@@ -44,5 +44,6 @@ export async function getStaticProps() {
       alumni,
       execBoard
     },
+    revalidate: 60,
   };
 }

@@ -127,14 +127,15 @@ export async function getStaticProps({ params: { memberSlug } }) {
 
     if (!memberData) {
       console.error(`No member found with slug: ${memberSlug}`);
-    return { notFound: true };
+    return { notFound: true, revalidate: 60 };
   }
 
     return {
       props: memberData,
+      revalidate: 60,
     };
   } catch (error) {
     console.error('Error fetching member detail:', error);
-    return { notFound: true };
+    return { notFound: true, revalidate: 60 };
   }
 }

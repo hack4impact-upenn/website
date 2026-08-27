@@ -50,5 +50,6 @@ export async function getStaticProps() {
 
   return {
     props: studentApplication,
+    revalidate: 60,
   };
 }

@@ -48,5 +48,6 @@ export async function getStaticProps() {
 
   return {
     props: nonprofitApplication,
+    revalidate: 60,
   };
 }
