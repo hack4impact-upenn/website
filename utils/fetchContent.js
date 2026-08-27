@@ -1,5 +1,4 @@
 import { Client } from '@notionhq/client';
-import FALLBACK_APPLICATION_CONTENT from './fallbackApplicationContent';
 
 // Initialize the Notion client
 const notion = new Client({
@@ -271,21 +270,12 @@ export async function fetchApplicationContent(applicationType) {
         applicationResult.reason,
       );
     }
-    const fallback = FALLBACK_APPLICATION_CONTENT[applicationType]?.application;
-    if (fallback) {
-      empty.applicationLink = fallback.applicationLink;
-      empty.openRolesLink = fallback.openRolesLink;
-      empty.description = fallback.description;
-    }
   }
 
   if (timelineResult.status === 'fulfilled' && timelineResult.value.results.length > 0) {
     empty.timelineCollection.items = timelineResult.value.results.map(formatTimelineStep);
-  } else {
-    if (timelineResult.status === 'rejected') {
-      console.error(`Error fetching timeline for ${applicationType}:`, timelineResult.reason);
-    }
-    empty.timelineCollection.items = FALLBACK_APPLICATION_CONTENT[applicationType]?.timeline || [];
+  } else if (timelineResult.status === 'rejected') {
+    console.error(`Error fetching timeline for ${applicationType}:`, timelineResult.reason);
   }
 
   if (testimonialsResult.status === 'fulfilled') {
@@ -296,11 +286,8 @@ export async function fetchApplicationContent(applicationType) {
 
   if (faqsResult.status === 'fulfilled' && faqsResult.value.results.length > 0) {
     empty.faqsCollection.items = faqsResult.value.results.map(formatFaq);
-  } else {
-    if (faqsResult.status === 'rejected') {
-      console.error(`Error fetching FAQs for ${applicationType}:`, faqsResult.reason);
-    }
-    empty.faqsCollection.items = FALLBACK_APPLICATION_CONTENT[applicationType]?.faqs || [];
+  } else if (faqsResult.status === 'rejected') {
+    console.error(`Error fetching FAQs for ${applicationType}:`, faqsResult.reason);
   }
 
   return empty;
