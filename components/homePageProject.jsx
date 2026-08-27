@@ -1,15 +1,14 @@
 import React from 'react';
 import Link from 'next/link';
-import ContentBlock from './ContentBlock';
 
 function HomePageProject({ title, description, thumbnail, urlSlug }) {
   return (
-    <Link href={`/projects/${urlSlug}`}>
+    <Link legacyBehavior href={`/projects/${urlSlug}`}>
       <a>
         <div className="project-item">
           <img src={thumbnail.url} alt={thumbnail.description} />
           <h4>{title}</h4>
-          <ContentBlock content={description.json} />
+          <p>{description}</p>
         </div>
         <style jsx>{`
           @media (max-width: 768px) {
@@ -70,7 +69,9 @@ function HomePageProject({ title, description, thumbnail, urlSlug }) {
             }
           }
           .project-item:hover {
-            box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            box-shadow:
+              0 4px 12px 0 rgba(0, 0, 0, 0.2),
+              0 6px 20px 0 rgba(0, 0, 0, 0.19);
           }
           p {
             margin: 0px;

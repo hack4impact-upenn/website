@@ -3,11 +3,11 @@ import React from 'react';
 import Head from '../../components/head';
 import GradientBanner from '../../components/gradientBanner';
 import ProjectList from '../../components/projects/projectList';
-import ProjectExplore from '../../components/projects/projectExplore';
-import fetchContent from '../../utils/fetchContent';
+import fetchNotionContent from '../../utils/fetchContent';
 import ActionButton from '../../components/actionButton';
 
 function Projects({ projects }) {
+  console.log(projects);
   return (
     <div>
       <Head title="Our Work" />
@@ -34,7 +34,6 @@ function Projects({ projects }) {
         </p>
       </div>
       <ProjectList projects={projects} />
-      <ProjectExplore />
     </div>
   );
 }
@@ -42,32 +41,24 @@ function Projects({ projects }) {
 export default Projects;
 
 export async function getStaticProps() {
-  const {
-    pennWebsiteLayout: { projectsCollection },
-  } = await fetchContent(`
-  {
-    pennWebsiteLayout(id: "${process.env.LAYOUT_ENTRY_ID}") {
-      projectsCollection {
-        items {
-          title
-          description {
-            json
-          }
-          thumbnail {
-            url
-            description
-          }
-          urlSlug
-          completedIn
-        }
-      }
-    }
-  }
-  `);
+  try {
+    const {
+      pennWebsiteLayout: { projectsCollection },
+    } = await fetchNotionContent('projects');
 
-  return {
-    props: {
-      projects: projectsCollection.items.filter((x) => !!x),
-    },
-  };
+    return {
+      props: {
+        projects: projectsCollection.items,
+      },
+      revalidate: 60,
+    };
+  } catch (error) {
+    console.error('Error fetching projects from Notion:', error);
+    return {
+      props: {
+        projects: [],
+      },
+      revalidate: 60,
+    };
+  }
 }

@@ -3,7 +3,7 @@ import Link from 'next/link';
 function NavLink({ children, href, activeRoute, ariaLabel }) {
   return (
     <>
-      <Link href={href}>
+      <Link legacyBehavior href={href}>
         <a aria-label={ariaLabel} className={href === activeRoute ? 'active_route' : ''}>
           {children}
         </a>

@@ -20,7 +20,9 @@ const getAnchor = (link, text, style) => (
 
 const ActionLink = ({ link, text, style }) =>
   link.startsWith('/') ? (
-    <Link href={link}>{getAnchor(link, text, style)}</Link>
+    <Link legacyBehavior href={link}>
+      {getAnchor(link, text, style)}
+    </Link>
   ) : (
     getAnchor(link, text, style)
   );

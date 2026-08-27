@@ -6,7 +6,7 @@ import Quote from '../../components/quote';
 import ApplicationProcess from '../../components/apply/applicationProcess';
 import Head from '../../components/head';
 import ActionButton from '../../components/actionButton';
-import fetchContent from '../../utils/fetchContent';
+import { fetchApplicationContent } from '../../utils/fetchContent';
 
 function Students({
   applicationLink,
@@ -46,51 +46,10 @@ function Students({
 export default Students;
 
 export async function getStaticProps() {
-  const {
-    pennWebsiteLayout: { studentApplication },
-  } = await fetchContent(`
-  {
-    pennWebsiteLayout(id: "${process.env.LAYOUT_ENTRY_ID}") {
-      studentApplication {
-        applicationLink
-        openRolesLink
-        description {
-          json
-        }
-        timelineCollection {
-          items {
-            header
-            body {
-              json
-            }
-            image {
-              url
-              description
-            }
-          }
-        }
-        testimonialsCollection {
-          items {
-            author
-            quote {
-              json
-            }
-          }
-        }
-        faqsCollection {
-          items {
-            question
-            answer {
-              json
-            }
-          }
-        }
-      }
-    }
-  }
-  `);
+  const studentApplication = await fetchApplicationContent('Students');
 
   return {
     props: studentApplication,
+    revalidate: 60,
   };
 }

@@ -30,13 +30,21 @@ const TeamMemberIcon = ({ name, title, image, memberSlug, linkedIn }) => {
       </div>
       <style jsx>{`
         .team-icon {
-          width: 80%;
+          width: 120px;
+          height: 120px;
+          object-fit: cover;
+          border: 3px solid #f8f9fa;
         }
         .linkedin-icon {
           margin-bottom: 3px;
         }
         .team-icon:hover {
           box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+          transform: scale(1.05);
+          transition: all 0.3s ease;
+        }
+        .member-icon {
+          margin-bottom: 20px;
         }
       `}</style>
     </Col>
